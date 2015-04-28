@@ -38,8 +38,12 @@ public class RangeAnalyzer {
 			System.out.println("debug: " + iterator.toString());
 			ResultRow row = new ResultRow();
 			row.setMark(pointer);
-			row.setProfit(trade.totalProfit(pointer, false));
-			System.out.println("debug: MARK: " + pointer + " price: " + trade.totalProfit(pointer, false));
+                        try{
+                            row.setProfit(trade.totalProfit(pointer));
+                        } catch (Exception e){
+                            System.exit(1);
+                        }
+			System.out.println("debug: MARK: " + pointer + " price: " + trade.totalProfit(pointer));
 			row.setRowId(iterator.intValue());
 			resultMap.put(iterator, row);
 			iterator = iterator.add(BigInteger.ONE);
