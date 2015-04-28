@@ -1,12 +1,9 @@
 package main;
 
-import domain.Position;
-import domain.Position.OPTION_TYPE;
-import domain.Position.POSITION_TYPE;
-
 public class Main {
 
 	public static void main(String[] args) {
+		/*
 		Position a = new Position();
 		a.setStrikePrice(55);
 		a.setPosition(POSITION_TYPE.LONG);
@@ -22,9 +19,13 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		*/
 	}
 	
+	/*
+	 * TODO
+	 */
+	@SuppressWarnings("unused")
 	private static void p(String s){
 		System.out.println("debug: " + s);
 	}
