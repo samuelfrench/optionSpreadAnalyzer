@@ -58,9 +58,6 @@ public class Position {
 
 		// long call
 		if (position == POSITION_TYPE.LONG) {
-			if (purchasePrice <= 0) {
-				throw new Exception(BAD_FLOW);
-			}
 			if (type == OPTION_TYPE.CALL) {
 				double initialProfit = 0;
 				if (strikePrice < mark) {
@@ -84,9 +81,6 @@ public class Position {
 
 		// else if position is short
 		if (position == POSITION_TYPE.SHORT) {
-			if (purchasePrice > 0) {
-				throw new Exception(BAD_FLOW);
-			}
 			double initialProfit = purchasePrice;
 			double subTotal;
 
