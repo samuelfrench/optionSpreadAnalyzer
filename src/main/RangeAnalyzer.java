@@ -43,7 +43,7 @@ public class RangeAnalyzer {
 			row.setRowId(iterator.intValue());
 			resultMap.put(iterator, row);
 			iterator = iterator.add(BigInteger.ONE);
-			pointer = Double.sum(pointer, interval);
+			pointer = pointer+ interval;
 		}
 		
 		return resultMap;

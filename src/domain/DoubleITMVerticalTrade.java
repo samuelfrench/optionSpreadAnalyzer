@@ -49,8 +49,8 @@ public class DoubleITMVerticalTrade {
 	}
 
 	public double totalProfit(double mark, boolean commissions) {
-		return Double.sum(this.getSingleSpread(mark, true, commissions),
-				this.getSingleSpread(mark, false, commissions));
+		return this.getSingleSpread(mark, true, commissions) +
+				this.getSingleSpread(mark, false, commissions);
 	}
 
 	public double getSingleSpread(double mark, boolean callSpread,
@@ -66,13 +66,17 @@ public class DoubleITMVerticalTrade {
 
 	private Double getSingleSpreadPrivate(double mark, boolean callSpread,
 			boolean commissions) throws Exception {
-		if (callSpread) {
-			return Double.sum(this.getLongCall()
-					.profitAtMark(mark, commissions), this.getShortCall()
+            /*System.out.println("long call: " + this.getLongCall()
 					.profitAtMark(mark, commissions));
-		}
-		return Double.sum(this.getLongPut().profitAtMark(mark, commissions),
-				this.getShortPut().profitAtMark(mark, commissions));
+            System.out.println("short call" + this.getShortCall()
+					.profitAtMark(mark, commissions));*/
+		if (callSpread) {
+			return this.getLongCall()
+					.profitAtMark(mark, commissions) + this.getShortCall()
+					.profitAtMark(mark, commissions);
+		} 
+		return this.getLongPut().profitAtMark(mark, commissions)+
+				this.getShortPut().profitAtMark(mark, commissions);
 
 	}
 }

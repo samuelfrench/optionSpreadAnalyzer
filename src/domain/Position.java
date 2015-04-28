@@ -62,9 +62,7 @@ public class Position {
 				double initialProfit = 0;
 				if (strikePrice < mark) {
 					initialProfit = mark - strikePrice;
-				} else {
-					initialProfit = 0;
-				}
+				} 
 				double subTotal = initialProfit - purchasePrice;
 				return applyCommissions(commissions, getTotal(subTotal));
 			} else { // long put

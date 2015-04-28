@@ -26,27 +26,27 @@ public class Main {
 		trade.getLongCall().setNumberOfContracts(2);
 		trade.getLongCall().setPurchasePrice(19.36);
 		trade.getLongCall().setTotalSpreadTrades(4);
-		trade.getLongCall().setApproxCommissionsTotal(new Double(0));
+		trade.getLongCall().setApproxCommissionsTotal((double) 0);
 		trade.getLongCall().setStrikePrice(130);
 
 		trade.getShortCall().setNumberOfContracts(2);
-		trade.getShortCall().setPurchasePrice(15.98);
+		trade.getShortCall().setPurchasePrice(-15.98);
 		trade.getShortCall().setTotalSpreadTrades(4);
-		trade.getShortCall().setApproxCommissionsTotal(new Double(0));
+		trade.getShortCall().setApproxCommissionsTotal((double) 0);
 		trade.getShortCall().setStrikePrice(135);
 		
 		trade.getLongPut().setNumberOfContracts(1);
-		trade.getLongPut().setPurchasePrice(30.92);
+		trade.getLongPut().setPurchasePrice(35.58); //35.58
 		trade.getLongPut().setTotalSpreadTrades(4);
-		trade.getLongPut().setApproxCommissionsTotal(new Double(0));
-		trade.getLongPut().setStrikePrice(470);
+		trade.getLongPut().setApproxCommissionsTotal((double) 0);
+		trade.getLongPut().setStrikePrice(475);
 
 		trade.getShortPut().setNumberOfContracts(1);
-		trade.getShortPut().setPurchasePrice(35.58);
+		trade.getShortPut().setPurchasePrice(-30.92);
 		trade.getShortPut().setTotalSpreadTrades(4);
-		trade.getShortPut().setApproxCommissionsTotal(new Double(0));
-		trade.getShortPut().setStrikePrice(475);
-		RangeAnalyzer analyzer = new RangeAnalyzer(400, 500, 5, trade);
+		trade.getShortPut().setApproxCommissionsTotal((double) 0);
+		trade.getShortPut().setStrikePrice(470);
+		RangeAnalyzer analyzer = new RangeAnalyzer(400, 500, 1, trade);
 		analyzer.setCommissions(false);
 		analyzer.runRangeAnalysis();
 	
