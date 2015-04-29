@@ -2,33 +2,34 @@ package function;
 
 public class BaseCalculation {
 	/*
-	 * tradePrice should be a positive number at all times
+	 * premium should be a positive number at all times
 	 */
-	public static double getLongCallProfit(double mark, double strike, double tradePrice){
+	public static double getLongCallProfit(double mark, double strike, double premium){
 		if(mark <= strike){ //ITM Expiration
-			return -tradePrice;
+			return -premium;
 		}
-		return (mark-strike) - tradePrice;
+		
+		return (mark-strike) - premium;
 	}
 	
-	public static double getShortCallProfit(double mark, double strike, double tradePrice){
+	public static double getShortCallProfit(double mark, double strike, double premium){
 		if(mark >= strike){ //ITM Expiration
-			return (mark - strike) + tradePrice;
+			return (mark - strike) + premium;
 		}
-		return tradePrice;
+		return premium;
 	}
 	
-	public static double getLongPutProfit(double mark, double strike, double tradePrice){
+	public static double getLongPutProfit(double mark, double strike, double premium){
 		if(strike > mark) { //ITM Expiration
-			return (strike-mark) - tradePrice;
+			return (strike-mark) - premium;
 		}
-		return -tradePrice;
+		return -premium;
 	}
 	
-	public static double getShortPutProfit(double mark, double strike, double tradePrice){
+	public static double getShortPutProfit(double mark, double strike, double premium){
 		if(strike > mark){ //ITM Expiration
-			return (strike - mark) + tradePrice;
+			return (strike - mark) + premium;
 		}
-		return tradePrice;
+		return premium;
 	}
 }
