@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RangeCalculation {
+	//should be moved to a class for final enums
 	public static enum POSITION_TYPE {LONG_CALL, SHORT_CALL, LONG_PUT, SHORT_PUT};
 	
 	public static Map<Double, Double> getProfitOverRange(POSITION_TYPE positionType, 

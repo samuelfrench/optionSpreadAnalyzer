@@ -13,7 +13,7 @@ public class Main {
 		Map<Double, Double> longCallMap = 
 				RangeCalculation.getProfitOverRange(POSITION_TYPE.LONG_CALL, 0, 100, 0.001, 57.5, 6.50);
 		//List<Double> keyList = longCallMap.keySet().stream().sorted().collect(Collectors.toList());
-		CSVWriter.writeFile(longCallMap, "longCallMap.csv");
+		CSVWriter.writeFile(longCallMap, "longCallMap.csv", null);
 
 	}
 
