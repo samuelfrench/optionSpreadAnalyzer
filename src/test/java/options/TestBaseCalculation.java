@@ -8,14 +8,14 @@ import function.BaseCalculation;
 
 public class TestBaseCalculation {
 	
-	final public double tolerance = 0.1;
+	final public double tolerance = 0.00000001;
 	
 	@Test
 	public void testGetLongCallProfit() {
-		double strike = 55;
-		double mark = 50;
-		double premium = 2;
-		assertEquals(3, BaseCalculation.getLongCallProfit(mark, strike, premium),tolerance);
+		double strike = 50.0;
+		double mark = 55.0;
+		double premium = 2.0;
+		assertEquals(3.0, BaseCalculation.getLongCallProfit(mark, strike, premium),tolerance);
 	}
 	
 	@Test
@@ -47,7 +47,7 @@ public class TestBaseCalculation {
 		double strike = 22.500;
 		double mark = 22.334;
 		double premium = 0.110;
-		assertEquals(0.056, BaseCalculation.getShortPutProfit(mark, strike, premium),tolerance);
+		assertEquals(0.056, BaseCalculation.getLongPutProfit(mark, strike, premium),tolerance);
 	}
 	
 	@Test
@@ -55,7 +55,7 @@ public class TestBaseCalculation {
 		double strike = 41.0;
 		double mark = 42.437;
 		double premium = 0.110;
-		assertEquals(0.110, BaseCalculation.getLongPutProfit(mark, strike, premium),tolerance);
+		assertEquals((-0.110), BaseCalculation.getLongPutProfit(mark, strike, premium),tolerance);
 	}
 	
 	@Test
@@ -73,12 +73,15 @@ public class TestBaseCalculation {
 		double premium = 0.9355;
 		//should equal 1.2955
 		assertNotEquals(3.25, BaseCalculation.getShortPutProfit(mark, strike, premium), tolerance);
-		assertEquals(1.29, BaseCalculation.getShortPutProfit(mark, strike, premium), tolerance);
+		assertEquals(0.5755, BaseCalculation.getShortPutProfit(mark, strike, premium), tolerance);
 	}
 	
 	@Test
 	public void testGetShortPutLoss() {
-		fail("Not yet implemented");
+		double strike = 395;
+		double mark = 377;
+		double premium = 12;
+		assertEquals((double)(-6),BaseCalculation.getShortPutProfit(mark, strike, premium),0.5);
 	}
 
 }
