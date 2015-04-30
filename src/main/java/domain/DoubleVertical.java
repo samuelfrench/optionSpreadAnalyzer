@@ -3,7 +3,6 @@ package domain;
 import java.util.Map;
 
 import function.Util;
-import function.Util.POSITION_TYPE;
 
 public class DoubleVertical extends RecordRow {
 	

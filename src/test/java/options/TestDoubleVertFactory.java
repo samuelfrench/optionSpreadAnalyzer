@@ -1,17 +1,13 @@
 package options;
 
-import static org.junit.Assert.*;
-
 import java.util.List;
 import java.util.Map;
 
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
 import domain.DoubleVertical;
 import function.DoubleVerticalMapFactory;
-import function.Util;
 import function.Util.POSITION_TYPE;
 
 public class TestDoubleVertFactory extends TestUtil {

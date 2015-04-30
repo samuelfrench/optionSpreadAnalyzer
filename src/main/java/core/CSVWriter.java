@@ -8,7 +8,7 @@ import java.util.Map;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
-import domain.RecordRow;
+import domain.DoubleVertical;
 import function.Util;
 
 public class CSVWriter {
@@ -43,17 +43,17 @@ public class CSVWriter {
 		}
 	}
 	
-	public static void writeFile(Map<Double, RecordRow> data, String fileName) throws IOException{
+	public void writeFile(Map<Double, DoubleVertical> toWrite, String fileName) throws IOException{
 		FileWriter fileWriter = null;
 		CSVPrinter csvFilePrinter = null;
 		try{
 			fileWriter = new FileWriter(fileName);
 			csvFilePrinter = new CSVPrinter(fileWriter, CSV_FORMAT_DEFAULT);
-			List<Double> keys = Util.sortedSet(data.keySet());
-			csvFilePrinter.print(data.get(0).getRowHeader());
+			List<Double> keys = Util.sortedSet(toWrite.keySet());
+			csvFilePrinter.print(toWrite.get(0).getRowHeader());
 			csvFilePrinter.println();
 			for(Double d : keys){
-				csvFilePrinter.print(data.get(d).toString());
+				csvFilePrinter.print(toWrite.get(d).toString());
 				csvFilePrinter.println();
 			}
 		} catch (IOException e){

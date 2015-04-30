@@ -76,7 +76,7 @@ import com.tictactec.ta.lib.meta.annotation.RealRange;
 /**
  * CoreMetaData provides low level RTTI (Run Time Type Information) for TA functions. It also provides methods
  * for those willing to call a certain TA function using late binding techniques. These two functionalities let you
- * call TA functions dinamically. Even if more TA functions are added by the time, your application code will be able
+ * call TA functions dynamically. Even if more TA functions are added by the time, your application code will be able
  * to call all added functions by querying TA-Lib package about:
  * 
  * <li>TA functions available;
