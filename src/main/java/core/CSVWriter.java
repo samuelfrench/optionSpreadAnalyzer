@@ -43,7 +43,7 @@ public class CSVWriter {
 		}
 	}
 	
-	protected static void writeFile(Map<Double, RecordRow> data, String fileName) throws IOException{
+	public static void writeFile(Map<Double, RecordRow> data, String fileName) throws IOException{
 		FileWriter fileWriter = null;
 		CSVPrinter csvFilePrinter = null;
 		try{
