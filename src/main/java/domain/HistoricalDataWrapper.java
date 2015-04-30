@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class HistoricalDataWrapper {
     private Map<Integer,HistoricalDataRecord> dataCollection;
-
+    private String header;
     /**
      * @return the dataCollection
      */

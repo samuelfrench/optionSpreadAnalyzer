@@ -2,8 +2,10 @@ package core.csv;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.csv.CSVParser;
 
@@ -22,10 +24,31 @@ public class CSVReader {
 	}
     }
     
-    private Map<Long, HistoricalDataRecord> readFile(){
-	Map<Long, HistoricalDataRecord> map = new HashMap<>();
+    @SuppressWarnings("unused")
+    private Map<Long, HistoricalDataRecord> readFile() throws IOException{
+	Map<Long, HistoricalDataRecord> map = new ConcurrentHashMap<>();
 		this.csvReader.getRecords().parallelStream().forEach((r) -> {
-		    map.put(r.get(0), null);//todo
+		    HistoricalDataRecord d = new HistoricalDataRecord();
+		    try{
+			if(r.getRecordNumber()!=0){
+			    //todo turn this to an enum
+			    /*
+			     * TODO
+			     */
+			    d.setId(Long.parseLong(r.get(0)));
+			    d.setDateTime(Date.valueOf(r.get(1)));
+			    d.setOpen(Double.parseDouble(r.get(2)));
+			    d.setLow(Double.parseDouble(r.get(3)));
+			    d.setClose(Double.parseDouble(r.get(4)));
+			    d.setVolume(Long.getLong(r.get(5)));
+			    d.setAdjClose(Double.parseDouble(r.get(6))); 
+			    map.put(d.getId().longValue(), d);
+			}
+		    } catch (NumberFormatException e) {
+			e.printStackTrace();
+		    } catch (NullPointerException n) {
+			n.printStackTrace();
+		    }
 		});
 	return map;
     }

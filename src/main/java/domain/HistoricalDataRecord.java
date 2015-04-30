@@ -10,11 +10,15 @@ public class HistoricalDataRecord {
     private Double high;
     private Double low;
     private Double close;
-    private Double volume;
+    private Long volume;
     private Double adjClose;
-    
+
+    public HistoricalDataRecord(){
+	
+    }
+
     public HistoricalDataRecord(Long id, Double open, Double high,
-	    Double low, Double close, Double volume, Double adjClose) {
+	    Double low, Double close, Long volume, Double adjClose) {
 	super();
 	this.id = id;
 	this.open = open;
@@ -26,7 +30,7 @@ public class HistoricalDataRecord {
     }
     
     public HistoricalDataRecord(Long id, Date dateTime, Double open,
-	    Double high, Double low, Double close, Double volume,
+	    Double high, Double low, Double close, Long volume,
 	    Double adjClose) {
 	super();
 	this.id = id;
@@ -114,13 +118,13 @@ public class HistoricalDataRecord {
     /**
      * @return the volume
      */
-    public Double getVolume() {
+    public Long getVolume() {
 	return volume;
     }
     /**
      * @param volume the volume to set
      */
-    public void setVolume(Double volume) {
+    public void setVolume(Long volume) {
 	this.volume = volume;
     }
     /**
