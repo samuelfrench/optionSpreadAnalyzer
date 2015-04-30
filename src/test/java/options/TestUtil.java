@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import domain.DoubleVertical;
 import function.DoubleVerticalMapFactory;
 import function.RangeCalculation;
@@ -17,14 +14,7 @@ import function.Util.POSITION_TYPE;
 
 public abstract class TestUtil {
 
-	@Before
-	public void setUp() throws Exception {
-	}
 
-	@Test
-	public void test() {
-		fail("Not yet implemented"); // TODO
-	}
 
 	public static List<Map<Double, Double>> getTestResultSet(Double precision){
 		//completeNetProfit.forEach((c) -> c = new HashMap<Double,Double>());
