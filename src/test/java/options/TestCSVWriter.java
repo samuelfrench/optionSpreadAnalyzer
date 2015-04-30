@@ -18,8 +18,6 @@ public class TestCSVWriter {
 	Map<Double, Double> lc, lp, sc, sp;
 	@Before
 	public void setUp() {
-		
-		
 	}
 
 	@Test
