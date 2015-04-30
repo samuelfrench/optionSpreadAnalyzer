@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import function.RangeCalculation;
-import function.RangeCalculation.POSITION_TYPE;
+import function.Util.POSITION_TYPE;
 
 public class TestCSVWriter {
 

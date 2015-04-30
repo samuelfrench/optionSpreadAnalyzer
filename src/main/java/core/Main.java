@@ -6,13 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 import function.RangeCalculation;
-import function.RangeCalculation.POSITION_TYPE;
+import function.Util;
+import function.Util.POSITION_TYPE;
 
 public class Main {
 
 	public static void main(String[] args) {
 		Map<Double, Double> longCallMap = 
-				RangeCalculation.getProfitOverRange(POSITION_TYPE.LONG_CALL, 0, 100, 0.001, 57.5, 6.50);
+				RangeCalculation.getProfitOverRange(Util.POSITION_TYPE.LONG_CALL, 0, 100, 0.001, 57.5, 6.50);
 		//List<Double> keyList = longCallMap.keySet().stream().sorted().collect(Collectors.toList());
 		//CSVWriter.writeFile(longCallMap, "longCallMap.csv", null);
 		
@@ -25,10 +26,10 @@ public class Main {
 		
 		List<Map<Double,Double>> completeNetProfit = new ArrayList<>();
 		completeNetProfit.forEach((c) -> c = new HashMap<Double,Double>());
-		Map<Double, Double> lc = RangeCalculation.getProfitOverRange(POSITION_TYPE.LONG_CALL, 0, 500, 0.01, 100, 5);
-		Map<Double, Double> lp = RangeCalculation.getProfitOverRange(POSITION_TYPE.LONG_PUT, 0, 500, 0.01, 100, 5);
-		Map<Double, Double> sc = RangeCalculation.getProfitOverRange(POSITION_TYPE.SHORT_CALL, 0, 500, 0.01, 100, 5);
-		Map<Double, Double> sp = RangeCalculation.getProfitOverRange(POSITION_TYPE.SHORT_PUT, 0, 500, 0.01, 100, 5);
+		Map<Double, Double> lc = RangeCalculation.getProfitOverRange(Util.POSITION_TYPE.LONG_CALL, 0, 500, 0.01, 100, 5);
+		Map<Double, Double> lp = RangeCalculation.getProfitOverRange(Util.POSITION_TYPE.LONG_PUT, 0, 500, 0.01, 100, 5);
+		Map<Double, Double> sc = RangeCalculation.getProfitOverRange(Util.POSITION_TYPE.SHORT_CALL, 0, 500, 0.01, 100, 5);
+		Map<Double, Double> sp = RangeCalculation.getProfitOverRange(Util.POSITION_TYPE.SHORT_PUT, 0, 500, 0.01, 100, 5);
 
 		
 	}

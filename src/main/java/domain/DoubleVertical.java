@@ -2,7 +2,8 @@ package domain;
 
 import java.util.Map;
 
-import function.RangeCalculation.POSITION_TYPE;
+import function.Util;
+import function.Util.POSITION_TYPE;
 
 public class DoubleVertical extends RecordRow {
 	
@@ -51,7 +52,7 @@ public class DoubleVertical extends RecordRow {
 		this.shortPutProfit = shortPutProfit;
 	}
 	
-	public void setMap(Map<Double, Double> resultMap, POSITION_TYPE type){
+	public void setMap(Map<Double, Double> resultMap, Util.POSITION_TYPE type){
 		switch(type){
 		case LONG_CALL:
 			this.setLongCallProfit(resultMap.getOrDefault(this.getMark(), (DEFAULT_VALUE)));
