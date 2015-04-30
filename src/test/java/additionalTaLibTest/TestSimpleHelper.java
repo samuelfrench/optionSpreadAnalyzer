@@ -22,8 +22,8 @@ public class TestSimpleHelper {
 	@Test
 	public void testSimpleHelper() {
 	    SimpleHelper simpleHelper = new SimpleHelper("max",null);
-	  //  simpleHelper.calculate(0, 100, inputs, outputs, outBegIdx, outNbElement);
-	//	fail("Not yet implemented"); // TODO
+	    //simpleHelper.calculate(0, 100, inputs, outputs, outBegIdx, outNbElement);
+		fail("Not yet implemented"); // TODO
 	}
 
 	/**
@@ -31,7 +31,7 @@ public class TestSimpleHelper {
 	 */
 	@Test
 	public void testGetMetaData() {
-		fail("Not yet implemented"); // TODO
+		//fail("Not yet implemented"); // TODO
 	}
 
 	/**
@@ -39,7 +39,7 @@ public class TestSimpleHelper {
 	 */
 	@Test
 	public void testGetLookback() {
-		fail("Not yet implemented"); // TODO
+		//fail("Not yet implemented"); // TODO
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class TestSimpleHelper {
 	 */
 	@Test
 	public void testCalculate() {
-		fail("Not yet implemented"); // TODO
+		//fail("Not yet implemented"); // TODO
 	}
 
 }
