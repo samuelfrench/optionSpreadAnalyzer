@@ -33,17 +33,17 @@ public class HistoricalDataWrapper {
      * @param overWrite
      * @return true if exists, false otherwise
      */
-    public boolean putRecordByDateInteger(Integer date, HistoricalDataRecord record, Boolean overWrite){
+    public boolean putRecordById(Integer id, HistoricalDataRecord record, Boolean overWrite){
 	if(overWrite){
-	    if(getDataCollection().put(date, record)==null){
+	    if(getDataCollection().put(id, record)==null){
 		return false;
 	    }
 	    return true;
 	}
-	if(getDataCollection().get(date)!=null){
+	if(getDataCollection().get(id)!=null){
 	    return true;
 	}
-	getDataCollection().put(date, record);
+	getDataCollection().put(id, record);
 	return false;
     }
 }

@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class HistoricalDataRecord {
     
-    private Integer date;
+    private Long id;
     private Date dateTime;
     private Double open;
     private Double high;
@@ -13,10 +13,10 @@ public class HistoricalDataRecord {
     private Double volume;
     private Double adjClose;
     
-    public HistoricalDataRecord(Integer date, Double open, Double high,
+    public HistoricalDataRecord(Long id, Double open, Double high,
 	    Double low, Double close, Double volume, Double adjClose) {
 	super();
-	this.date = date;
+	this.id = id;
 	this.open = open;
 	this.high = high;
 	this.low = low;
@@ -25,11 +25,11 @@ public class HistoricalDataRecord {
 	this.adjClose = adjClose;
     }
     
-    public HistoricalDataRecord(Integer date, Date dateTime, Double open,
+    public HistoricalDataRecord(Long id, Date dateTime, Double open,
 	    Double high, Double low, Double close, Double volume,
 	    Double adjClose) {
 	super();
-	this.date = date;
+	this.id = id;
 	this.dateTime = dateTime;
 	this.open = open;
 	this.high = high;
@@ -42,14 +42,14 @@ public class HistoricalDataRecord {
     /**
      * @return the date
      */
-    public Integer getDate() {
-	return date;
+    public Long getId() {
+	return id;
     }
     /**
      * @param date the date to set
      */
-    public void setDate(Integer date) {
-	this.date = date;
+    public void setId(Long date) {
+	this.id = date;
     }
     /**
      * @return the dateTime

@@ -4,12 +4,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.commons.csv.CSVFormat;
+
 import domain.spread.impl.DoubleVertical;
 
 public class Util {
 	//should be moved to a class for final enums
 	public static enum POSITION_TYPE {LONG_CALL, SHORT_CALL, LONG_PUT, SHORT_PUT}
-
+	public final static CSVFormat CSV_FORMAT_DEFAULT = CSVFormat.MYSQL;
+	
 	public static List<Double> sortedSet(Set<Double> s){
 		return s.stream().sorted().collect(Collectors.toList());
 	}

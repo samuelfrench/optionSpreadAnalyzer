@@ -1,4 +1,4 @@
-package core;
+package core.csv;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import domain.spread.impl.DoubleVertical;
 import function.Util;
 
 public class CSVWriter {
-	public final static CSVFormat CSV_FORMAT_DEFAULT = CSVFormat.MYSQL;
+	
 	
 	@Deprecated
 	public static void writeFile(Map<Double, Double> data, String fileName, CSVFormat csvFormat){
@@ -20,7 +20,7 @@ public class CSVWriter {
 		CSVFormat format = null;
 		
 		if(csvFormat==null){
-			format = CSV_FORMAT_DEFAULT;
+			format = Util.CSV_FORMAT_DEFAULT;
 		} else {
 			format = csvFormat;
 		}
@@ -48,7 +48,7 @@ public class CSVWriter {
 		CSVPrinter csvFilePrinter = null;
 		try{
 			fileWriter = new FileWriter(fileName);
-			csvFilePrinter = new CSVPrinter(fileWriter, CSV_FORMAT_DEFAULT);
+			csvFilePrinter = new CSVPrinter(fileWriter, Util.CSV_FORMAT_DEFAULT);
 			List<Double> keys = Util.sortedSet(toWrite.keySet());
 			csvFilePrinter.print(toWrite.get(keys.get(0)).getRowHeader());
 			csvFilePrinter.println();
