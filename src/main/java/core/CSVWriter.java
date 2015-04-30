@@ -8,7 +8,6 @@ import java.util.Map;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
-import domain.DoubleVertical;
 import domain.RecordRow;
 import function.Util;
 
@@ -44,7 +43,7 @@ public class CSVWriter {
 		}
 	}
 	
-	public static void writeFile(Map<Double, RecordRow> data, String fileName) throws IOException{
+	protected static void writeFile(Map<Double, RecordRow> data, String fileName) throws IOException{
 		FileWriter fileWriter = null;
 		CSVPrinter csvFilePrinter = null;
 		try{
@@ -52,9 +51,7 @@ public class CSVWriter {
 			csvFilePrinter = new CSVPrinter(fileWriter, CSV_FORMAT_DEFAULT);
 			List<Double> keys = Util.sortedSet(data.keySet());
 			for(Double d : keys){
-				if(data.get(d)==null || (!data.get(d).isPopulated())){
-					throw new IllegalArgumentException();
-				}
+				checkParam(data, d);
 				csvFilePrinter.print(data.get(d).toString());
 				csvFilePrinter.println();
 			}
@@ -70,12 +67,10 @@ public class CSVWriter {
 			}
 		}
 	}
-	
-	/*
-	 * TODO: Write a static method that can print our DoubleVertical objects - also need a method to create them all via maps returned from RangeCalculation
-	 * @TODO
-	 */
-	
-	
-	
+
+	private static void checkParam(Map<Double, RecordRow> data, Double d) {
+		if(data.get(d)==null || (!data.get(d).isPopulated()) || data.get(d).toString()==null){
+			throw new IllegalArgumentException();
+		}
+	}
 }

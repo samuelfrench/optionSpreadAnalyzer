@@ -80,8 +80,20 @@ public class DoubleVertical extends RecordRow {
 
 	@Override
 	public String toString() {
-		//TODO
-		return null;
+		if(!this.isPopulated()){
+			return null;
+		}
+		StringBuilder sb = new StringBuilder(this.getMark().toString());
+		appendDouble(sb, this.getLongCallProfit());
+		appendDouble(sb, this.getShortCallProfit());
+		appendDouble(sb, this.getLongPutProfit());
+		appendDouble(sb, this.getShortPutProfit());
+		return sb.toString();
+	}
+	
+	private void appendDouble(StringBuilder sb, Double d){
+		sb.append(",");
+		sb.append(d.toString());
 	}
 
 	@Override
