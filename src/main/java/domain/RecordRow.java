@@ -10,4 +10,8 @@ public abstract class RecordRow {
 	public void setMark(Double mark) {
 		this.mark = mark;
 	}
+	
+	public abstract String toString();
+	
+	public abstract boolean isPopulated();
 }

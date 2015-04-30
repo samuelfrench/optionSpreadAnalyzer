@@ -4,7 +4,7 @@ import java.util.Map;
 
 import function.RangeCalculation.POSITION_TYPE;
 
-public class DoubleVertical extends RecordRow{
+public class DoubleVertical extends RecordRow {
 	
 	private final Double DEFAULT_VALUE = Double.NEGATIVE_INFINITY;
 	
@@ -66,17 +66,46 @@ public class DoubleVertical extends RecordRow{
 			break;
 		default:
 			break;
-		
 		}
 	}
 	
-	public Double totalProfit(){
+	public Double getNetProfit(){
 		if(this.getLongCallProfit().equals(DEFAULT_VALUE) || this.getShortCallProfit().equals(DEFAULT_VALUE) 
 				|| this.getLongPutProfit().equals(DEFAULT_VALUE) || this.getShortPutProfit().equals(DEFAULT_VALUE)){
 			throw new IllegalArgumentException();
 		}
 		
 		return Double.sum(Double.sum(this.getLongCallProfit(), this.getShortCallProfit()), Double.sum(this.getLongPutProfit(), this.getShortPutProfit()));
+	}
+
+	@Override
+	public String toString() {
+		//TODO
+		return null;
+	}
+
+	@Override
+	public boolean isPopulated() {
+		if(this.getLongCallProfit()==null){
+			return false;
+		}
+		
+		if(this.getShortCallProfit()==null){
+			return false;
+		}
+		
+		if(this.getLongPutProfit()==null){
+			return false;
+		}
+		
+		if(this.getShortPutProfit()==null){
+			return false;
+		}
+		
+		if(this.getMark()==null){
+			return false;
+		}
+		return true;
 	}
 	
 	
