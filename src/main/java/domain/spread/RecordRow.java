@@ -1,4 +1,4 @@
-package domain;
+package domain.spread;
 
 public abstract class RecordRow {
 	private Double mark;

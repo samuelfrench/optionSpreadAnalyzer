@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import core.CSVWriter;
-import domain.DoubleVertical;
+import domain.spread.impl.DoubleVertical;
 
 public class TestCSVWriter extends TestUtil {
 

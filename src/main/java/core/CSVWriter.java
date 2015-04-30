@@ -8,7 +8,7 @@ import java.util.Map;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
-import domain.DoubleVertical;
+import domain.spread.impl.DoubleVertical;
 import function.Util;
 
 public class CSVWriter {

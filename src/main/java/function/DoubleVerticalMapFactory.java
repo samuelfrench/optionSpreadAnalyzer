@@ -3,7 +3,7 @@ package function;
 import java.util.HashMap;
 import java.util.Map;
 
-import domain.DoubleVertical;
+import domain.spread.impl.DoubleVertical;
 
 public class DoubleVerticalMapFactory {
 	public static Map<Double, DoubleVertical> getMap(

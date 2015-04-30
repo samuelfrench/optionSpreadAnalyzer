@@ -1,7 +1,8 @@
-package domain;
+package domain.spread.impl;
 
 import java.util.Map;
 
+import domain.spread.RecordRow;
 import function.Util;
 
 public class DoubleVertical extends RecordRow {

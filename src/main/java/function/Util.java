@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import domain.DoubleVertical;
+import domain.spread.impl.DoubleVertical;
 
 public class Util {
 	//should be moved to a class for final enums

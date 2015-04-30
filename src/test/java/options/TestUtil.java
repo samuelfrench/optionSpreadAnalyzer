@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import domain.DoubleVertical;
+import domain.spread.impl.DoubleVertical;
 import function.DoubleVerticalMapFactory;
 import function.RangeCalculation;
 import function.Util;

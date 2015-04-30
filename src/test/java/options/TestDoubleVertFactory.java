@@ -6,7 +6,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import domain.DoubleVertical;
+import domain.spread.impl.DoubleVertical;
 import function.DoubleVerticalMapFactory;
 import function.Util.POSITION_TYPE;
 
