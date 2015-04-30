@@ -14,7 +14,6 @@ public class DoubleVertical extends RecordRow {
 	private Double longPutProfit;
 	private Double shortPutProfit;
 	
-	private String ROW_HEADER = "Mark, Long Call Profit, Short Call Profit, Long Put Profit, Short Put Profit, Net Profit";
 	public DoubleVertical(){
 		clearValues();
 	}
@@ -124,8 +123,6 @@ public class DoubleVertical extends RecordRow {
 
 	@Override
 	public String getRowHeader() {
-		return this.ROW_HEADER;
+	    return Util.getRowHeader(this);
 	}
-	
-	
 }

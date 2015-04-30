@@ -11,6 +11,7 @@ import function.Util.POSITION_TYPE;
 
 public class Main {
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		Map<Double, Double> longCallMap = 
 				RangeCalculation.getProfitOverRange(Util.POSITION_TYPE.LONG_CALL, 0, 100, 0.001, 57.5, 6.50);

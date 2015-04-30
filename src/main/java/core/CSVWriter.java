@@ -50,7 +50,7 @@ public class CSVWriter {
 			fileWriter = new FileWriter(fileName);
 			csvFilePrinter = new CSVPrinter(fileWriter, CSV_FORMAT_DEFAULT);
 			List<Double> keys = Util.sortedSet(toWrite.keySet());
-			csvFilePrinter.print(toWrite.get(0).getRowHeader());
+			csvFilePrinter.print(toWrite.get(keys.get(0)).getRowHeader());
 			csvFilePrinter.println();
 			for(Double d : keys){
 				csvFilePrinter.print(toWrite.get(d).toString());
