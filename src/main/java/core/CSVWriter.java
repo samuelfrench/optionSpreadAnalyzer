@@ -50,8 +50,9 @@ public class CSVWriter {
 			fileWriter = new FileWriter(fileName);
 			csvFilePrinter = new CSVPrinter(fileWriter, CSV_FORMAT_DEFAULT);
 			List<Double> keys = Util.sortedSet(data.keySet());
+			csvFilePrinter.print(data.get(0).getRowHeader());
+			csvFilePrinter.println();
 			for(Double d : keys){
-				checkParam(data, d);
 				csvFilePrinter.print(data.get(d).toString());
 				csvFilePrinter.println();
 			}
@@ -68,9 +69,10 @@ public class CSVWriter {
 		}
 	}
 
+	/*
 	private static void checkParam(Map<Double, RecordRow> data, Double d) {
 		if(data.get(d)==null || (!data.get(d).isPopulated()) || data.get(d).toString()==null){
 			throw new IllegalArgumentException();
 		}
-	}
+	} */
 }

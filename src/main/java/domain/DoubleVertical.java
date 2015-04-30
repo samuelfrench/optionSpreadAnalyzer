@@ -14,6 +14,7 @@ public class DoubleVertical extends RecordRow {
 	private Double longPutProfit;
 	private Double shortPutProfit;
 	
+	private String ROW_HEADER = "Mark, Long Call Profit, Short Call Profit, Long Put Profit, Short Put Profit, Net Profit";
 	public DoubleVertical(){
 		clearValues();
 	}
@@ -88,6 +89,7 @@ public class DoubleVertical extends RecordRow {
 		appendDouble(sb, this.getShortCallProfit());
 		appendDouble(sb, this.getLongPutProfit());
 		appendDouble(sb, this.getShortPutProfit());
+		appendDouble(sb, this.getNetProfit());
 		return sb.toString();
 	}
 	
@@ -118,6 +120,11 @@ public class DoubleVertical extends RecordRow {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public String getRowHeader() {
+		return this.ROW_HEADER;
 	}
 	
 	
