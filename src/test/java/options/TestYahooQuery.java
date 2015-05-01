@@ -34,9 +34,8 @@ public class TestYahooQuery {
 		}
 		YahooQuery query = new YahooQuery();
 		for(int x = 0; x < ticks.size(); x++){
-			query.getStockData(ticks.get(x));
+			query.getStockData(ticks.get(x),"1994","2015");
 		}
-		query.getStockData("YHOO");
 	}
 
 }

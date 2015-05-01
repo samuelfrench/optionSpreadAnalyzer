@@ -12,10 +12,10 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 public class YahooQuery {
-	public void getStockData(String ticker){
+	public void getStockData(String ticker, String startYear, String endYear){
 	  CloseableHttpClient httpclient = HttpClients.createDefault();
       try {
-    	  HttpGet httpget = new HttpGet("http://real-chart.finance.yahoo.com/table.csv?s="+ ticker + "&d=4&e=1&f=2015&g=d&a=0&b=3&c=1994&ignore=.csv");
+    	  HttpGet httpget = new HttpGet("http://real-chart.finance.yahoo.com/table.csv?s="+ ticker + "&d=4&e=1&f="+endYear+"&g=d&a=0&b=3&c=" + startYear + "&ignore=.csv");
 
 
 
