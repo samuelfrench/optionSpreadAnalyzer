@@ -1,7 +1,5 @@
 package options;
 
-import static org.junit.Assert.*;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -25,6 +23,7 @@ public class TestYahooQuery {
 			while(br.ready()){
 				ticks.add(br.readLine().split("\\|")[0]);
 			}
+			br.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -35,6 +34,7 @@ public class TestYahooQuery {
 		YahooQuery query = new YahooQuery();
 		for(int x = 0; x < ticks.size(); x++){
 			query.getStockData(ticks.get(x),"1994","2015");
+			System.out.println(x + " " + ticks.get(x));
 		}
 	}
 
