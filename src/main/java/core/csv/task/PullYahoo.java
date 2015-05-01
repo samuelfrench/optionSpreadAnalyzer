@@ -13,11 +13,11 @@ public class PullYahoo {
 
 	public static void main(String[] args) {
 		List<String> ticks = getNasdaqTickers();
-		YahooQuery query = new YahooQuery();
-		for(int x = 0; x < ticks.size(); x++){
-			query.getStockData(ticks.get(x),"1994","2015");
-			System.out.println(x + " " + ticks.get(x));
-		}
+		ticks.parallelStream().forEach((t) -> {
+			YahooQuery.getStockData(t,"1994","2015");
+			System.out.println("Downloading: " + t);
+		});
+		
 	}
 
 	/**
