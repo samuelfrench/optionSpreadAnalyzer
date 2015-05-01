@@ -14,5 +14,4 @@ public class InitNasdaqDump {
 		WriteNasdaqTicker wt = new WriteNasdaqTicker(tickers);
 		wt.writeTickersToFile("nasdaqTickersSimple");
 	}
-
 }
