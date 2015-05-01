@@ -1,32 +1,21 @@
 package core.service;
 
-import java.io.BufferedReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.CharBuffer;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
-import org.apache.commons.csv.CSVParser;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
-import core.csv.CSVReader;
-
 public class YahooQuery {
-	public YahooQuery(){
+	public void getStockData(String ticker){
 	  CloseableHttpClient httpclient = HttpClients.createDefault();
       try {
-    	  HttpGet httpget = new HttpGet("http://real-chart.finance.yahoo.com/table.csv?s=NOK&d=4&e=1&f=2015&g=d&a=0&b=3&c=1994&ignore=.csv");
+    	  HttpGet httpget = new HttpGet("http://real-chart.finance.yahoo.com/table.csv?s="+ ticker + "&d=4&e=1&f=2015&g=d&a=0&b=3&c=1994&ignore=.csv");
 
 
 
@@ -38,10 +27,25 @@ public class YahooQuery {
               HttpEntity resEntity = response.getEntity();
               if (resEntity != null) {
                   System.out.println("Response content length: " + resEntity.getContentLength());
-                  BufferedReader br = new BufferedReader(new InputStreamReader(resEntity.getContent()));
-                  //while br has next etc
+                 
+                  FileWriter fr = new FileWriter("test_" + ticker + ".csv");
+                  InputStreamReader ir = new InputStreamReader(resEntity.getContent());
+                  while(ir.ready()){
+                	  char[] cbuff = new char[255];
+                	  if(ir.read(cbuff)<1){
+                		  break;
+                	  }
+                	  fr.write(cbuff);
+                	  if(!ir.ready()){
+                		  EntityUtils.consume(resEntity);
+                	  }
+                  }
+                  
+                  fr.close();
+                  
+              
+                  //return n;
               }
-              EntityUtils.consume(resEntity);
           } catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -64,5 +68,6 @@ public class YahooQuery {
 			e.printStackTrace();
 		}
       }
+	//return null;
 	}
 }
