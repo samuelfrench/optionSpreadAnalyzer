@@ -14,7 +14,7 @@ import core.service.YahooQuery;
 public class TestYahooQuery {
 
 	
-	final static String[] tickers = {"AAPL", "INTC", "AMD", "AMZN", "NVDA","ORCL", "EBAY","FB","SAP", "TWTR", "YHOO", "MSFT", "GOOGL"};
+	//final static String[] tickers = {"AAPL", "INTC", "AMD", "AMZN", "NVDA","ORCL", "EBAY","FB","SAP", "TWTR", "YHOO", "MSFT", "GOOGL"};
 	@Test
 	public final void testYahooQuery() {
 		List<String> ticks = new ArrayList<>();

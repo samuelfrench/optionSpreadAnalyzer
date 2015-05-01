@@ -28,7 +28,7 @@ public class YahooQuery {
               if (resEntity != null) {
                   System.out.println("Response content length: " + resEntity.getContentLength());
                  
-                  FileWriter fr = new FileWriter("test_" + ticker + ".csv");
+                  FileWriter fr = new FileWriter(ticker + "_" + Long.toString((new java.util.Date().getTime())) + ".csv");
                   InputStreamReader ir = new InputStreamReader(resEntity.getContent());
                   while(ir.ready()){
                 	  char[] cbuff = new char[255];
