@@ -6,7 +6,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
 public class HibernateServ {
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
 		// A SessionFactory is set up once for an application
 
 		p("Trying to create a test connection with the database.");
