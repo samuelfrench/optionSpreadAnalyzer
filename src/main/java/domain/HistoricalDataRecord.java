@@ -139,11 +139,4 @@ public class HistoricalDataRecord {
     public void setAdjClose(Double adjClose) {
 	this.adjClose = adjClose;
     }
-
-	public String toSQL(String schemaTableName) {
-		return //TODO WRITE INSERT STAQTEMENT
-			//"INSERT INTO " + schemaTableName + "(`"
-		
-		return null;
-	}
 }
