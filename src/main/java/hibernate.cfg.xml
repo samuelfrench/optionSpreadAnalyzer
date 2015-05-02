@@ -32,7 +32,8 @@
         <property name="hbm2ddl.auto">update</property>
 
         <mapping resource="org/hibernate/tutorial/domain/Event.hbm.xml"/>
-
+        
+      <!-- <mapping class="com.journaldev.hibernate.model.Employee1"/> -->
     </session-factory>
 
 </hibernate-configuration>
