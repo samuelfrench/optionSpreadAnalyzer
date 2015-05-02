@@ -31,7 +31,12 @@ CREATE TABLE `daily_historical` (
   `low` double DEFAULT NULL,
   `close` double DEFAULT NULL,
   `volume` int(11) unsigned DEFAULT NULL,
-  `adjusted_volume` int(11) DEFAULT NULL
+  `adjusted_volume` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ticker_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ticker_id_fk_idx` (`ticker_id`),
+  CONSTRAINT `ticker_id_fk` FOREIGN KEY (`ticker_id`) REFERENCES `nasdaq_ticker` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -86,4 +91,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-05-02 15:46:12
+-- Dump completed on 2015-05-02 15:52:55
