@@ -37,12 +37,13 @@ public class PersistServ {
 		List<Connection> connPool = new ArrayList<>(conn);
 		connPool.parallelStream().forEach((c) -> { try {
 			c = DriverManager.getConnection("jdbc:mysql://localhost:3306/?user=root");
+			c.setSchema("repo");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			c = null;
 		}});
 		this.connections = connPool.parallelStream();
-		return (connPool.size()==conn);
+		return (connPool.size()!=conn);
 	}
 }

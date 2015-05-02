@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import core.service.PersistServ;
+
 public class TestPersistServ {
 
 	@Before
@@ -13,7 +15,8 @@ public class TestPersistServ {
 
 	@Test
 	public final void test() {
-		fail("Not yet implemented"); // TODO
+		PersistServ persistServ = new PersistServ();
+		assert(persistServ.initConnPool(1));
 	}
 
 }

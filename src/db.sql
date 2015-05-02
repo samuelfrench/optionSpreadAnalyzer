@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `repo` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `repo`;
--- MySQL dump 10.13  Distrib 5.6.19, for osx10.7 (i386)
+-- MySQL dump 10.13  Distrib 5.6.19, for linux-glibc2.5 (x86_64)
 --
 -- Host: localhost    Database: repo
 -- ------------------------------------------------------
--- Server version	5.6.21
+-- Server version	5.6.24
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -25,17 +25,18 @@ DROP TABLE IF EXISTS `daily_historical`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `daily_historical` (
-  `daily_historical_id` int(11) NOT NULL,
-  `ticker` varchar(10) NOT NULL,
+  `ticker` varchar(10) DEFAULT NULL,
   `timestamp_load` timestamp NULL DEFAULT NULL,
-  `date` varchar(45) NOT NULL,
+  `date` varchar(45) DEFAULT NULL,
   `open` decimal(45,0) DEFAULT NULL,
   `high` decimal(45,0) DEFAULT NULL,
   `low` decimal(45,0) DEFAULT NULL,
   `close` decimal(45,0) DEFAULT NULL,
   `volume` bigint(255) DEFAULT NULL,
   `adj_close` decimal(45,0) DEFAULT NULL,
+  `daily_historical_id` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`daily_historical_id`),
+  UNIQUE KEY `daily_historical_id_UNIQUE` (`daily_historical_id`),
   UNIQUE KEY `UNIQUE` (`ticker`,`date`),
   CONSTRAINT `daily_ticker_fk` FOREIGN KEY (`ticker`) REFERENCES `nasdaq_ticker` (`ticker`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -91,4 +92,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-05-01 15:24:44
+-- Dump completed on 2015-05-01 22:39:44
