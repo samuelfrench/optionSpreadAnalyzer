@@ -1,16 +1,24 @@
 package core.service;
 
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.Spliterator;
+import java.util.Stack;
 import java.util.stream.Stream;
 
 import org.apache.commons.dbutils.RowProcessor;
 import org.apache.commons.dbutils.handlers.MapListHandler;
+
+import domain.HistoricalDataRecord;
 
 public class PersistServ {
 	
@@ -46,4 +54,37 @@ public class PersistServ {
 		this.connections = connPool.parallelStream();
 		return (connPool.size()!=conn);
 	}
+	
+	public boolean insertRows(List<HistoricalDataRecord> record){
+		for(HistoricalDataRecord r: record){
+			this.getConnection().createStatement(r.toSQL());
+		}
+		
+		
+		return false;
+	}
+	
+	public Connection getConnection() throws SQLException{
+		Optional<Connection> op = Optional.empty();
+		while(!op.isPresent()){
+			op = this.connections.filter((c) -> {
+				try{
+					return c.isValid(5);
+				} catch (SQLException e){
+					return false;
+			}}).findAny();
+			if(op.isPresent()){
+				try { 
+					return op.get();
+				} catch (NoSuchElementException e2){
+					e2.printStackTrace();
+					continue;
+				}
+			}
+		}
+		return null;
+		
+		
+	}
 }
+
