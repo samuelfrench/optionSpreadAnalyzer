@@ -2,12 +2,12 @@ package core.csv;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 
 import domain.HistoricalDataRecord;
 import function.Util;
@@ -18,37 +18,43 @@ public class CSVReader {
     public CSVReader(String fileName){
 	try{
 	    this.fileReader = new FileReader(fileName);
-	    this.csvReader = new CSVParser(fileReader,Util.CSV_FORMAT_DEFAULT);
+	    this.csvReader = new CSVParser(fileReader,CSVFormat.EXCEL.withDelimiter(','));
 	} catch (IOException e){
 	    e.printStackTrace();
 	}
     }
     
-    public Map<Long, HistoricalDataRecord> readFile() throws IOException{
-	Map<Long, HistoricalDataRecord> map = new ConcurrentHashMap<>();
-		this.csvReader.getRecords().parallelStream().forEach((r) -> {
+    public List<HistoricalDataRecord> readFile() throws IOException{
+	List<HistoricalDataRecord> records = new ArrayList<>();
+	List<CSVRecord> rawRecords = this.csvReader.getRecords();
+
+	System.out.println(rawRecords.size());
+		for(CSVRecord r:rawRecords){
 		    HistoricalDataRecord d = new HistoricalDataRecord();
 		    try{
+		    	System.out.println(r.getRecordNumber());
 			if(r.getRecordNumber()!=0){
 			    //todo turn this to an enum
 			    /*
 			     * TODO
 			     */
-			    d.setId(Long.parseLong(r.get(0)));
-			    d.setDate(Date.valueOf(r.get(1)));
-			    d.setOpen(Double.parseDouble(r.get(2)));
+			    d.setId(r.getRecordNumber());
+			    d.setDate(r.get(0));
+			    d.setOpen(Double.parseDouble(r.get(1)));
+			    d.setHigh(Double.parseDouble(r.get(2)));
 			    d.setLow(Double.parseDouble(r.get(3)));
 			    d.setClose(Double.parseDouble(r.get(4)));
-			    d.setVolume(Long.getLong(r.get(5)));
-			    d.setAdjVolume(Long.getLong(r.get(6))); 
-			    map.put(d.getId().longValue(), d);
+			    d.setVolume(Double.parseDouble(r.get(5)));
+			    d.setAdjVolume(Double.parseDouble(r.get(6))); 
+			    records.add(d);
 			}
 		    } catch (NumberFormatException e) {
 			e.printStackTrace();
 		    } catch (NullPointerException n) {
 			n.printStackTrace();
 		    }
-		});
-	return map;
+		}
+		
+	return records;
     }
 }

@@ -5,13 +5,13 @@ import java.util.Date;
 public class HistoricalDataRecord {
     
     private Long id;
-    private Date date;
+    private String date;
     private Double open;
     private Double high;
     private Double low;
     private Double close;
-    private Long volume;
-    private Long adjVolume;
+    private Double volume;
+    private Double adjVolume;
     private String ticker;
 
     public HistoricalDataRecord(){
@@ -19,7 +19,7 @@ public class HistoricalDataRecord {
     }
 
     public HistoricalDataRecord(Long id, Double open, Double high,
-	    Double low, Double close, Long volume, Long adjVolume) {
+	    Double low, Double close, Double volume, Double adjVolume) {
 	super();
 	this.id = id;
 	this.open = open;
@@ -30,9 +30,9 @@ public class HistoricalDataRecord {
 	this.adjVolume = adjVolume;
     }
     
-    public HistoricalDataRecord(Long id, Date date, Double open,
-	    Double high, Double low, Double close, Long volume,
-	    Long adjVolume, String ticker) {
+    public HistoricalDataRecord(Long id, String date, Double open,
+	    Double high, Double low, Double close, Double volume,
+	    Double adjVolume, String ticker) {
 	super();
 	this.id = id;
 	this.date = date;
@@ -52,21 +52,21 @@ public class HistoricalDataRecord {
 	return id;
     }
     /**
-     * @param date the date to set
+     * @param l the date to set
      */
-    public void setId(Long date) {
-	this.id = date;
+    public void setId(long l) {
+	this.id = l;
     }
     /**
      * @return the date
      */
-    public Date getDate() {
+    public String getDate() {
 	return date;
     }
     /**
      * @param date the date to set
      */
-    public void setDate(Date date) {
+    public void setDate(String date) {
 	this.date = date;
     }
     /**
@@ -120,25 +120,25 @@ public class HistoricalDataRecord {
     /**
      * @return the volume
      */
-    public Long getVolume() {
+    public Double getVolume() {
 	return volume;
     }
     /**
      * @param volume the volume to set
      */
-    public void setVolume(Long volume) {
+    public void setVolume(Double volume) {
 	this.volume = volume;
     }
     /**
      * @return the adjClose
      */
-    public Long getAdjVolume() {
+    public Double getAdjVolume() {
 	return adjVolume;
     }
     /**
      * @param adjClose the adjClose to set
      */
-    public void setAdjVolume(Long adjVolume) {
+    public void setAdjVolume(Double adjVolume) {
 	this.adjVolume = adjVolume;
     }
     
@@ -151,16 +151,16 @@ public class HistoricalDataRecord {
 	}
 
 	public String toSQL(){
-    	return "INSERT INTO `repo`.`daily_historical` (`date`, `open`, `high`, `low`, `close`, `volume`, `adjusted_volume`, `id`, `ticker_id`) "
+    	return "INSERT INTO `repo`.`daily_historical` (`date`, `open`, `high`, `low`, `close`, `volume`, `adjusted_volume`, `id`, `ticker`) "
     			+ "VALUES "
     			+ "(" + this.getDate() + ", "
-    			+ this.getOpen().toString() +  ", "
-    			+ this.getHigh().toString() + ", "
-    			+ this.getLow().toString() + ", "
-    			+ this.getClose().toString() + ", "
-    			+ this.getVolume().toString() + ", "
-    			+ this.getAdjVolume().toString() + ", "
-    			+ this.getId().toString() + ", "
-    			+ "'" + this.getTicker().toString() + "'";
+    			+ this.getOpen() +  ", "
+    			+ this.getHigh() + ", "
+    			+ this.getLow() + ", "
+    			+ this.getClose() + ", "
+    			+ this.getVolume() + ", "
+    			+ this.getAdjVolume() + ", "
+    			+ this.getId() + ", "
+    			+ "'" + this.getTicker() + "')";
     }
 }

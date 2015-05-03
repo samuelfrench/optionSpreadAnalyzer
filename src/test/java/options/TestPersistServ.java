@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -33,10 +34,12 @@ public class TestPersistServ {
 		try{
 		Connection c = PersistServ.initConn();
 		assertTrue(c.isValid(1));
-		CSVReader rd = new CSVReader("csv/AAPL_1430518998771.csv");
-		Map<Long,HistoricalDataRecord> map = rd.readFile();
+		CSVReader rd = new CSVReader("AAPL_1430608706544.csv");
+		List<HistoricalDataRecord> list = rd.readFile();
+		list.parallelStream().forEach((p) -> p.setTicker("AAPL"));
+		list.stream().forEachOrdered((p2) -> System.out.println(p2.toSQL()));
 			Statement s = c.createStatement();
-			boolean rs = (s.execute(map.get(1).toSQL()));
+			boolean rs = (s.execute(list.get(1).toSQL()));
 			ResultSet rs2 = (s.executeQuery("SELECT * FROM `repo`.`daily_historical`"));
 			rs2.next();
 			assertTrue(rs2.getString(1).equals("AAPL"));
