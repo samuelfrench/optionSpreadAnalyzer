@@ -44,8 +44,8 @@ public class CSVReader {
 			    d.setHigh(Double.parseDouble(r.get(2)));
 			    d.setLow(Double.parseDouble(r.get(3)));
 			    d.setClose(Double.parseDouble(r.get(4)));
-			    d.setVolume(Double.parseDouble(r.get(5)));
-			    d.setAdjVolume(Double.parseDouble(r.get(6))); 
+			    d.setVolume(Integer.parseInt(r.get(5)));
+			    d.setAdjClose(Double.parseDouble(r.get(6))); 
 			    records.add(d);
 			}
 		    } catch (NumberFormatException e) {

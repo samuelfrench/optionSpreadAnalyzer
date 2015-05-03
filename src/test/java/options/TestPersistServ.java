@@ -10,6 +10,8 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,12 +39,13 @@ public class TestPersistServ {
 		CSVReader rd = new CSVReader("AAPL_1430608706544.csv");
 		List<HistoricalDataRecord> list = rd.readFile();
 		list.parallelStream().forEach((p) -> p.setTicker("AAPL"));
-		list.stream().forEachOrdered((p2) -> System.out.println(p2.toSQL()));
-			Statement s = c.createStatement();
-			boolean rs = (s.execute(list.get(1).toSQL()));
-			ResultSet rs2 = (s.executeQuery("SELECT * FROM `repo`.`daily_historical`"));
+			for(HistoricalDataRecord rec : list){
+				Statement s = c.createStatement();
+				s.execute(rec.toSQL());
+			}
+			ResultSet rs2 = (c.createStatement().executeQuery("SELECT * FROM `repo`.`daily_historical`"));
 			rs2.next();
-			assertTrue(rs2.getString(1).equals("AAPL"));
+			assertTrue(rs2.getString(9).equals("AAPL"));
 			
 		} catch (SQLException | IOException e) {
 			// TODO Auto-generated catch block
