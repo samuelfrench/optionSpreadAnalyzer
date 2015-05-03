@@ -20,7 +20,7 @@ public class PersistServ {
 			   System.out.println("Error: unable to load driver class!");
 			   System.exit(1);
 			}
-			Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/?user=root");
+			Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/?user=root&rewriteBatchedStatements=true");
 			c.setSchema("repo");
 			return c;
 		} 

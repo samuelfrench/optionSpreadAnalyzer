@@ -56,9 +56,10 @@ public class CSVReader {
 			e.printStackTrace();
 		    } catch (NullPointerException n) {
 			n.printStackTrace();
+		    } finally{
+		    	this.csvReader.close();	
 		    }
 		}
-		
 	return records;
     }
 }

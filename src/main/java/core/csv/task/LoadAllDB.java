@@ -57,6 +57,9 @@ public class LoadAllDB {
 				c.createStatement().execute("TRUNCATE `repo`.`daily_historical`");
 				ticks.parallelStream().forEach((s)->{
 					//System.out.println(s);
+					if(s.startsWith("File Creation Time")){
+						return;
+					}
 					CSVReader rd = new CSVReader("csv/" + s + ".csv");
 							List<HistoricalDataRecord> list;
 							try {
@@ -88,14 +91,13 @@ public class LoadAllDB {
 										e4.printStackTrace();
 									}
 								});
-
+								System.out.println(s);
 								try {
 									addRecord.executeBatch();
 								} catch (Exception e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
-								
 				});
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
