@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `repo` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `repo`;
--- MySQL dump 10.13  Distrib 5.6.19, for osx10.7 (i386)
+-- MySQL dump 10.13  Distrib 5.6.19, for linux-glibc2.5 (x86_64)
 --
 -- Host: localhost    Database: repo
 -- ------------------------------------------------------
--- Server version	5.6.21
+-- Server version	5.6.24
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -33,10 +33,8 @@ CREATE TABLE `daily_historical` (
   `volume` int(11) unsigned DEFAULT NULL,
   `adjusted_volume` int(11) DEFAULT NULL,
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ticker_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `ticker_id_fk_idx` (`ticker_id`),
-  CONSTRAINT `ticker_id_fk` FOREIGN KEY (`ticker_id`) REFERENCES `nasdaq_ticker` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+  `ticker_id` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -91,4 +89,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-05-02 15:52:55
+-- Dump completed on 2015-05-02 20:24:42
