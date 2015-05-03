@@ -28,21 +28,43 @@ public class LoadAllDB {
 			YahooQuery.getStockData(t,"1994","2015", false);
 			System.out.println("Downloading: " + t);
 		});
-		try {
-			Connection c = PersistServ.initConn();
+			Connection c;
+			try {
+				c = PersistServ.initConn();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return;
+			}
 			for(String s: ticks){
 				CSVReader rd = new CSVReader("csv/" + s + ".csv");
-						List<HistoricalDataRecord> list = rd.readFile();
+						List<HistoricalDataRecord> list;
+						try {
+							list = rd.readFile();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							continue;
+						}
 						list.parallelStream().forEach((p) -> p.setTicker(s));
 							for(HistoricalDataRecord rec : list){
-								Statement statement = c.createStatement();
-								statement.execute(rec.toSQL());
+								Statement statement;
+								try {
+									statement = c.createStatement();
+								} catch (SQLException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+									continue;
+								}
+								try {
+									statement.execute(rec.toSQL());
+								} catch (SQLException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 							}	
 			}
-		} catch (SQLException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
 
 }
