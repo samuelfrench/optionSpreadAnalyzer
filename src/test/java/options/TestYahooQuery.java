@@ -31,9 +31,9 @@ public class TestYahooQuery {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		YahooQuery query = new YahooQuery();
+		//YahooQuery query = new YahooQuery();
 		for(int x = 0; x < ticks.size(); x++){
-			query.getStockData(ticks.get(x),"1994","2015");
+			YahooQuery.getStockData(ticks.get(x),"1994","2015", false);
 			System.out.println(x + " " + ticks.get(x));
 		}
 	}

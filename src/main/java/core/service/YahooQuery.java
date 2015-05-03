@@ -12,7 +12,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 public class YahooQuery {
-	public static void getStockData(String ticker, String startYear, String endYear){
+	public static void getStockData(String ticker, String startYear, String endYear, boolean timeStamp){
 	  CloseableHttpClient httpclient = HttpClients.createDefault();
 	  if(ticker.length()>10){
 		  return;
@@ -30,7 +30,12 @@ public class YahooQuery {
               HttpEntity resEntity = response.getEntity();
               if (resEntity != null) {
                   System.out.println("Response content length: " + resEntity.getContentLength());
-                  FileWriter fr = new FileWriter("csv/" + ticker + "_" + Long.toString((new java.util.Date().getTime())) + ".csv");
+                  FileWriter fr;
+                  if(timeStamp){
+                	  fr = new FileWriter("csv/" + ticker + "_" + Long.toString((new java.util.Date().getTime())) + ".csv");
+                  } else {
+                	  fr = new FileWriter("csv/" + ticker + ".csv");
+                  }
                   InputStreamReader ir = new InputStreamReader(resEntity.getContent());
                   while(ir.ready()){
                 	  char[] cbuff = new char[255];

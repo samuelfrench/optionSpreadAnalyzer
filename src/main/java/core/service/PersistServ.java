@@ -12,18 +12,6 @@ import org.apache.commons.dbutils.handlers.MapListHandler;
 public class PersistServ {
 	
 	
-	MapListHandler mapListHandle;
-	
-	//parameter is mapping information to turn database rows into a list of maps
-	protected boolean setupMapList(RowProcessor convert){
-		mapListHandle = new MapListHandler(convert);
-		return false;
-	}
-	
-	public List<Map<String, Object>> handleRow(ResultSet rs) throws SQLException{
-			return mapListHandle.handle(rs);
-	}
-	
 	public static Connection initConn() throws SQLException{
 		try {
 			   Class.forName("com.mysql.jdbc.Driver");

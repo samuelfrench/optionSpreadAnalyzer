@@ -151,7 +151,7 @@ public class HistoricalDataRecord {
 	}
 
 	public String toSQL(){
-    	return "INSERT INTO `repo`.`daily_historical` (`date`, `open`, `high`, `low`, `close`, `volume`, `adjusted_volume`, `id`, `ticker_id`) "
+    	return "INSERT INTO `repo`.`daily_historical` (`date`, `open`, `high`, `low`, `close`, `volume`, `adjusted_volume`, `ticker_id`) "
     			+ "VALUES "
     			+ "('" + this.getDate() + "', "
     			+ this.getOpen() +  ", "
@@ -160,7 +160,6 @@ public class HistoricalDataRecord {
     			+ this.getClose() + ", "
     			+ this.getVolume() + ", "
     			+ this.getAdjClose() + ", "
-    			+ this.getId() + ", "
     			+ "'" + this.getTicker() + "')";
     }
 }
