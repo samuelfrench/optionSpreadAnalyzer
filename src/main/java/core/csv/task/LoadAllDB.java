@@ -24,10 +24,10 @@ public class LoadAllDB {
 	
 	public static void loadDB(){
 		List<String> ticks = PullYahoo.getNasdaqTickers();
-		ticks.parallelStream().forEach((t) -> {
-			YahooQuery.getStockData(t,"1994","2015", false);
-			System.out.println("Downloading: " + t);
-		});
+		//ticks.parallelStream().forEach((t) -> {
+		//	YahooQuery.getStockData(t,"1994","2015", false);
+		//	System.out.println("Downloading: " + t);
+		//});
 			Connection c;
 			try {
 				c = PersistServ.initConn();
@@ -62,7 +62,7 @@ public class LoadAllDB {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
-							}	
+							}
 			}
 		
 	}

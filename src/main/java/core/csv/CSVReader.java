@@ -38,6 +38,7 @@ public class CSVReader {
 			    /*
 			     * TODO
 			     */
+				try{
 			    d.setId(r.getRecordNumber());
 			    d.setDate(r.get(0));
 			    d.setOpen(Double.parseDouble(r.get(1)));
@@ -46,6 +47,9 @@ public class CSVReader {
 			    d.setClose(Double.parseDouble(r.get(4)));
 			    d.setVolume(Integer.parseInt(r.get(5)));
 			    d.setAdjClose(Double.parseDouble(r.get(6))); 
+				} catch (Exception e){
+					continue;
+				}
 			    records.add(d);
 			}
 		    } catch (NumberFormatException e) {
