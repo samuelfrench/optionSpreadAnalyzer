@@ -55,15 +55,16 @@ public class LoadAllDB {
 						 //ticker - 8
 						+ " ? )");
 				c.createStatement().execute("TRUNCATE `repo`.`daily_historical`");
-				for(String s: ticks){
+				ticks.parallelStream().forEach((s)->{
+					//System.out.println(s);
 					CSVReader rd = new CSVReader("csv/" + s + ".csv");
 							List<HistoricalDataRecord> list;
 							try {
 								list = rd.readFile();
-							} catch (IOException e) {
+							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
-								continue;
+								return;
 							}
 							list.parallelStream().forEach((p) -> p.setTicker(s));
 								list.parallelStream().forEach((rec) -> {
@@ -76,17 +77,26 @@ public class LoadAllDB {
 									addRecord.setInt(6, rec.getVolume());
 									addRecord.setDouble(7, rec.getAdjClose());
 									addRecord.setString(8, rec.getTicker());
-									} catch (SQLException IHATESQL){
-										IHATESQL.printStackTrace();
+									} catch (SQLException e){
+										e.printStackTrace();
 										return;
 									}
 									try{
-										addRecord.executeUpdate();	
+										addRecord.addBatch();
+										
 									} catch (SQLException e4){
 										e4.printStackTrace();
 									}
 								});
-				}
+
+								try {
+									addRecord.executeBatch();
+								} catch (Exception e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								
+				});
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

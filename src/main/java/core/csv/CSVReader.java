@@ -28,11 +28,11 @@ public class CSVReader {
 	List<HistoricalDataRecord> records = new ArrayList<>();
 	List<CSVRecord> rawRecords = this.csvReader.getRecords();
 
-	System.out.println(rawRecords.size());
+	//System.out.println(rawRecords.size());
 		for(CSVRecord r:rawRecords){
 		    HistoricalDataRecord d = new HistoricalDataRecord();
 		    try{
-		    	System.out.println(r.getRecordNumber());
+		    	//System.out.println(r.getRecordNumber());
 			if(r.getRecordNumber()!=0){
 			    //todo turn this to an enum
 			    /*
