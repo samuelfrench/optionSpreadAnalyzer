@@ -24,8 +24,7 @@ public class CSVReader {
 	}
     }
     
-    @SuppressWarnings("unused")
-    private Map<Long, HistoricalDataRecord> readFile() throws IOException{
+    public Map<Long, HistoricalDataRecord> readFile() throws IOException{
 	Map<Long, HistoricalDataRecord> map = new ConcurrentHashMap<>();
 		this.csvReader.getRecords().parallelStream().forEach((r) -> {
 		    HistoricalDataRecord d = new HistoricalDataRecord();
@@ -36,12 +35,12 @@ public class CSVReader {
 			     * TODO
 			     */
 			    d.setId(Long.parseLong(r.get(0)));
-			    d.setDateTime(Date.valueOf(r.get(1)));
+			    d.setDate(Date.valueOf(r.get(1)));
 			    d.setOpen(Double.parseDouble(r.get(2)));
 			    d.setLow(Double.parseDouble(r.get(3)));
 			    d.setClose(Double.parseDouble(r.get(4)));
 			    d.setVolume(Long.getLong(r.get(5)));
-			    d.setAdjClose(Double.parseDouble(r.get(6))); 
+			    d.setAdjVolume(Long.getLong(r.get(6))); 
 			    map.put(d.getId().longValue(), d);
 			}
 		    } catch (NumberFormatException e) {

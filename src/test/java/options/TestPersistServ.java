@@ -2,16 +2,21 @@ package options;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Map;
 import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import core.csv.CSVReader;
 import core.service.PersistServ;
+import domain.HistoricalDataRecord;
+import function.Util;
 
 public class TestPersistServ {
 
@@ -28,12 +33,15 @@ public class TestPersistServ {
 		try{
 		Connection c = PersistServ.initConn();
 		assertTrue(c.isValid(1));
+		CSVReader rd = new CSVReader("csv/AAPL_1430518998771.csv");
+		Map<Long,HistoricalDataRecord> map = rd.readFile();
 			Statement s = c.createStatement();
-			ResultSet rs = (s.executeQuery("SELECT * FROM `repo`.`daily_historical`"));
-			rs.next();
-			assertTrue(rs.getString(1).equals("AAPL"));
+			boolean rs = (s.execute(map.get(1).toSQL()));
+			ResultSet rs2 = (s.executeQuery("SELECT * FROM `repo`.`daily_historical`"));
+			rs2.next();
+			assertTrue(rs2.getString(1).equals("AAPL"));
 			
-		} catch (SQLException e) {
+		} catch (SQLException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			fail();

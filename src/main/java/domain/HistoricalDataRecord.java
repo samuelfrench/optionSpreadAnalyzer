@@ -5,20 +5,21 @@ import java.util.Date;
 public class HistoricalDataRecord {
     
     private Long id;
-    private Date dateTime;
+    private Date date;
     private Double open;
     private Double high;
     private Double low;
     private Double close;
     private Long volume;
-    private Double adjClose;
+    private Long adjVolume;
+    private String ticker;
 
     public HistoricalDataRecord(){
 	
     }
 
     public HistoricalDataRecord(Long id, Double open, Double high,
-	    Double low, Double close, Long volume, Double adjClose) {
+	    Double low, Double close, Long volume, Long adjVolume) {
 	super();
 	this.id = id;
 	this.open = open;
@@ -26,21 +27,22 @@ public class HistoricalDataRecord {
 	this.low = low;
 	this.close = close;
 	this.volume = volume;
-	this.adjClose = adjClose;
+	this.adjVolume = adjVolume;
     }
     
-    public HistoricalDataRecord(Long id, Date dateTime, Double open,
+    public HistoricalDataRecord(Long id, Date date, Double open,
 	    Double high, Double low, Double close, Long volume,
-	    Double adjClose) {
+	    Long adjVolume, String ticker) {
 	super();
 	this.id = id;
-	this.dateTime = dateTime;
+	this.date = date;
 	this.open = open;
 	this.high = high;
 	this.low = low;
 	this.close = close;
 	this.volume = volume;
-	this.adjClose = adjClose;
+	this.adjVolume = adjVolume;
+	this.ticker = ticker;
     }
     
     /**
@@ -56,16 +58,16 @@ public class HistoricalDataRecord {
 	this.id = date;
     }
     /**
-     * @return the dateTime
+     * @return the date
      */
-    public Date getDateTime() {
-	return dateTime;
+    public Date getDate() {
+	return date;
     }
     /**
-     * @param dateTime the dateTime to set
+     * @param date the date to set
      */
-    public void setDateTime(Date dateTime) {
-	this.dateTime = dateTime;
+    public void setDate(Date date) {
+	this.date = date;
     }
     /**
      * @return the open
@@ -130,13 +132,35 @@ public class HistoricalDataRecord {
     /**
      * @return the adjClose
      */
-    public Double getAdjClose() {
-	return adjClose;
+    public Long getAdjVolume() {
+	return adjVolume;
     }
     /**
      * @param adjClose the adjClose to set
      */
-    public void setAdjClose(Double adjClose) {
-	this.adjClose = adjClose;
+    public void setAdjVolume(Long adjVolume) {
+	this.adjVolume = adjVolume;
+    }
+    
+    public String getTicker() {
+		return ticker;
+	}
+
+	public void setTicker(String ticker) {
+		this.ticker = ticker;
+	}
+
+	public String toSQL(){
+    	return "INSERT INTO `repo`.`daily_historical` (`date`, `open`, `high`, `low`, `close`, `volume`, `adjusted_volume`, `id`, `ticker_id`) "
+    			+ "VALUES "
+    			+ "(" + this.getDate() + ", "
+    			+ this.getOpen().toString() +  ", "
+    			+ this.getHigh().toString() + ", "
+    			+ this.getLow().toString() + ", "
+    			+ this.getClose().toString() + ", "
+    			+ this.getVolume().toString() + ", "
+    			+ this.getAdjVolume().toString() + ", "
+    			+ this.getId().toString() + ", "
+    			+ "'" + this.getTicker().toString() + "'";
     }
 }
