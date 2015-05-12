@@ -1,27 +1,15 @@
 package core.csv.task;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
-
-import com.mysql.jdbc.MySQLConnection;
-import com.mysql.jdbc.PreparedStatement;
 
 import core.csv.CSVReader;
 import core.service.PersistServ;
 import core.service.PullYahoo;
-import core.service.YahooQuery;
 import domain.HistoricalDataRecord;
 
 public class LoadAllDB {
-
-    
-	public LoadAllDB() {
-		// TODO Auto-generated constructor stub
-	}
-
 	public static void main(String[] args) {
 		loadDB();
 	}

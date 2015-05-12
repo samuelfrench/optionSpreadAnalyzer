@@ -12,7 +12,7 @@ public class PullYahoo {
 	public static void main(String[] args) {
 		List<String> ticks = getNasdaqTickers();
 		ticks.parallelStream().forEach((t) -> {
-			YahooQuery.getStockData(t,"1998","2015",false);
+			YahooQuery.getStockData(t,"2005","2015",false);
 			System.out.println("Downloading: " + t);
 		});
 		
