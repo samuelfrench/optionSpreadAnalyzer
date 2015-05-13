@@ -33,7 +33,30 @@ public class TestYahooQuery {
 		}
 		//YahooQuery query = new YahooQuery();
 		for(int x = 0; x < ticks.size(); x++){
-			YahooQuery.getStockData(ticks.get(x),"1994","2015", false);
+			YahooQuery.getHistoricalStockData(ticks.get(x),"1994","2015", false);
+			System.out.println(x + " " + ticks.get(x));
+		}
+	}
+	
+	@Test
+	public final void testGetDailyStockCSV() {
+		List<String> ticks = new ArrayList<>();
+		try {
+			BufferedReader br = new BufferedReader( new FileReader("nasdaqlisted.txt"));
+			while(br.ready()){
+				ticks.add(br.readLine().split("\\|")[0]);
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//YahooQuery query = new YahooQuery();
+		for(int x = 0; x < ticks.size(); x++){
+			YahooQuery.getDailyStockCSV(ticks.get(x),ticks.get(x), true);
 			System.out.println(x + " " + ticks.get(x));
 		}
 	}

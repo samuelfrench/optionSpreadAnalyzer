@@ -12,7 +12,9 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 public class YahooQuery {
-	public static void getStockData(String ticker, String startYear, String endYear, boolean timeStamp){
+	
+	public static final String[] dailyQuery = {"http://chartapi.finance.yahoo.com/instrument/1.0/","/chartdata;type=quote;range=1d/csv"};
+	public static void getHistoricalStockData(String ticker, String startYear, String endYear, boolean timeStamp){
 	  CloseableHttpClient httpclient = HttpClients.createDefault();
 	  if(ticker.length()>10){
 		  return;
@@ -76,5 +78,69 @@ public class YahooQuery {
 		}
       }
 	//return null;
+	}
+	
+	public static void getDailyStockCSV(String ticker, String fileName, boolean timeStamp) {
+		CloseableHttpClient httpclient = HttpClients.createDefault();
+		if (ticker.length() > 10) {
+			return;
+		}
+		String query = getDailyURI(ticker);
+	    	  HttpGet httpget = new HttpGet(query);
+
+
+
+	          System.out.println("executing request " + httpget.getRequestLine());
+	          CloseableHttpResponse response;
+			try {
+				response = httpclient.execute(httpget);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				return;
+			}
+	          try {
+	              System.out.println("----------------------------------------");
+	              System.out.println(response.getStatusLine());
+	              HttpEntity resEntity = response.getEntity();
+	              if (resEntity != null) {
+	                  System.out.println("Response content length: " + resEntity.getContentLength());
+	                  FileWriter fr;
+	                  if(fileName.toUpperCase().endsWith(".CSV")){
+	                	  fileName = fileName.substring(0, fileName.indexOf(".CSV"));
+	                  }
+	                  if(timeStamp){
+	                	  fr = new FileWriter("csv/daily/" + fileName + "_" + Long.toString((new java.util.Date().getTime())) + ".csv");
+	                  } else {
+	                	  fr = new FileWriter("csv/daily/" + fileName + ".csv");
+	                  }
+	                  InputStreamReader ir = new InputStreamReader(resEntity.getContent());
+	                  while(ir.ready()){
+	                	  char[] cbuff = new char[255];
+	                	  if(ir.read(cbuff)<1){
+	                		  break;
+	                	  }
+	                	  fr.write(cbuff);
+	                	  if(!ir.ready()){
+	                		  EntityUtils.consume(resEntity);
+	                	  }
+	                  }
+	                  
+	                  fr.close();
+	                  
+	              }
+	                  //return n;
+	              } catch (Exception e){
+	            	  //
+	              }
+		
+
+	}
+	
+	private static String getDailyURI(String ticker){
+		StringBuilder sb = new StringBuilder(dailyQuery[0]);
+		sb.append(ticker);
+		sb.append(dailyQuery[1]);
+		return sb.toString();
 	}
 }

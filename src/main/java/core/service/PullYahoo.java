@@ -16,7 +16,7 @@ public class PullYahoo {
 		//List<String> ticks = getNasdaqTickers();
 		List<String> ticks = Arrays.asList(tickers);
 		ticks.parallelStream().forEach((t) -> {
-			YahooQuery.getStockData(t,"2005","2015",false);
+			YahooQuery.getHistoricalStockData(t,"2005","2015",false);
 			System.out.println("Downloading: " + t);
 		});
 		
