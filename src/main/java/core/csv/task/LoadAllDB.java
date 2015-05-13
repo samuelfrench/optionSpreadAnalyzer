@@ -15,8 +15,8 @@ public class LoadAllDB {
 	}
 	
 	public static void loadDB(){
-		
-		List<String> ticks = PullYahoo.getNasdaqTickers();
+		List<String> ticks = PullYahoo.getAbbrTickers();
+		//List<String> ticks = PullYahoo.getNasdaqTickers();
 		//ticks.parallelStream().forEach((t) -> {
 		//	YahooQuery.getStockData(t,"1994","2015", false);
 		//	System.out.println("Downloading: " + t);

@@ -7,10 +7,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.emory.mathcs.backport.java.util.Arrays;
+
 public class PullYahoo {
 
+	public final static String[] tickers = {"INTC","AMD","AMZN", "ARMH"};
 	public static void main(String[] args) {
-		List<String> ticks = getNasdaqTickers();
+		//List<String> ticks = getNasdaqTickers();
+		List<String> ticks = Arrays.asList(tickers);
 		ticks.parallelStream().forEach((t) -> {
 			YahooQuery.getStockData(t,"2005","2015",false);
 			System.out.println("Downloading: " + t);
@@ -18,6 +22,10 @@ public class PullYahoo {
 		
 	}
 
+	
+	public static List<String> getAbbrTickers(){
+		return Arrays.asList(tickers);
+	}
 	/**
 	 * @return
 	 */
