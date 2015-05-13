@@ -1,0 +1,18 @@
+uri:/instrument/1.0/FBMS/chartdata;type=quote;range=1d/csv
+ticker:fbms
+Company-Name:The First Bancshares, Inc.
+Exchange-Name:NGM
+unit:MIN
+timezone:EDT
+currency:USD
+gmtoffset:-14400
+previous_close:16.6499
+Timestamp:1431523800,1431547200
+labels:1431525600,1431529200,1431532800,1431536400,1431540000,1431543600,1431547200
+values:Timestamp,close,high,low,open,volume
+close:16.6500,16.6500
+high:16.6500,16.6500
+low:16.6500,16.6500
+open:16.6500,16.6500
+volume:200,200
+1431523800,16.6500,16.6500,16.6500,16.6500,200

@@ -1,0 +1,18 @@
+uri:/instrument/1.0/HDRAR/chartdata;type=quote;range=1d/csv
+ticker:hdrar
+Company-Name:Hydra Industries Acquisition Co
+Exchange-Name:NCM
+unit:MIN
+timezone:EDT
+currency:USD
+gmtoffset:-14400
+previous_close:0.4000
+Timestamp:1430832600,1430856000
+labels:1430834400,1430838000,1430841600,1430845200,1430848800,1430852400,1430856000
+values:Timestamp,close,high,low,open,volume
+close:0.4200,0.4200
+high:0.4200,0.4200
+low:0.4200,0.4200
+open:0.4200,0.4200
+volume:16700,16700
+1430855176,0.4200,0.4200,0.4200,0.4200,16700
