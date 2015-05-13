@@ -47,6 +47,7 @@ public class PullYahoo {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		ticks.remove("Symbol");
 		return ticks;
 	}
 	
