@@ -50,14 +50,16 @@ public class PullYahoo {
 		ticks.remove("Symbol");
 		return ticks;
 	}
-	
+	/**
+	 * @todo need to find a better name for this - not daily - not sure what a proper name would be
+	 * @param timeStamp - append timestamp to file
+	 */
 	public static void getAndWriteDailyCsv(boolean timeStamp) {
 		List<String> ticks = NasdaqTickerReader.readFromFile();
 		//YahooQuery query = new YahooQuery();
 		ticks.parallelStream().forEach((t)->{
 			YahooQuery.getDailyStockCSV(t,t, timeStamp);
-			System.out.println(" " + t);
-
+			//System.out.println(" " + t);
 		});
 	}
 }

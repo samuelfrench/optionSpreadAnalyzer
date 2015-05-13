@@ -1,6 +1,7 @@
 package options;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.Test;
 
@@ -16,10 +17,10 @@ public class TestYahooQuery {
 	public final void testYahooQuery() {
 		List<String> ticks = readTicksFromFile();
 		//YahooQuery query = new YahooQuery();
-		for(int x = 0; x < ticks.size(); x++){
-			YahooQuery.getHistoricalStockData(ticks.get(x),"1994","2015", false);
-			System.out.println(x + " " + ticks.get(x));
-		}
+		ticks.parallelStream().forEach((t)->{
+			YahooQuery.getHistoricalStockData(t,"1994","2015", false);
+			System.out.println(t);
+		});
 	}
 	
 	@Test
@@ -31,21 +32,6 @@ public class TestYahooQuery {
 
 	public List<String> readTicksFromFile() {
 		return NasdaqTickerReader.readFromFile();
-		/*List<String> ticks = new ArrayList<>();
-		try {
-			BufferedReader br = new BufferedReader( new FileReader("nasdaqlisted.txt"));
-			while(br.ready()){
-				ticks.add(br.readLine().split("\\|")[0]);
-			}
-			br.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return ticks; */
 	}
 
 }

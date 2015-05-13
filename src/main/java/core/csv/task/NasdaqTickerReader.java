@@ -6,12 +6,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class NasdaqTickerReader {
 	
 	public static String DEFAULT_TICK_FILE = "nasdaqlisted.txt";
 	public static List<String> readFromFile(){
-		return NasdaqTickerReader.readFromFile(DEFAULT_TICK_FILE);
+		return scrubbedTickers(NasdaqTickerReader.readFromFile(DEFAULT_TICK_FILE));
 	}
 	public static List<String> readFromFile(String fileName){
 		List<String> ticks = new ArrayList<>();
@@ -29,5 +30,9 @@ public class NasdaqTickerReader {
 			e.printStackTrace();
 		}
 		return ticks;
+	}
+	
+	public static List<String> scrubbedTickers(List<String> tickers){
+		return tickers.parallelStream().filter((p)->p!=null).distinct().filter((p)-> (!p.equalsIgnoreCase("symbol"))).collect(Collectors.toList());
 	}
 }
