@@ -178,8 +178,4 @@ public class HistoricalDataRecord {
 		}
 		return dateTs;
 	}
-
-	public void setDateTs(Long dateTs) {
-		this.dateTs = dateTs;
-	}
 }
