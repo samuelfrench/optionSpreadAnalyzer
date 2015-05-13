@@ -2,6 +2,8 @@ package core.csv.task;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import core.csv.CSVReader;
@@ -15,8 +17,8 @@ public class LoadAllDB {
 	}
 	
 	public static void loadDB(){
-		List<String> ticks = PullYahoo.getAbbrTickers();
-		//List<String> ticks = PullYahoo.getNasdaqTickers();
+		//List<String> ticks = PullYahoo.getAbbrTickers();
+		List<String> ticks = PullYahoo.getNasdaqTickers();
 		//ticks.parallelStream().forEach((t) -> {
 		//	YahooQuery.getStockData(t,"1994","2015", false);
 		//	System.out.println("Downloading: " + t);
@@ -31,7 +33,7 @@ public class LoadAllDB {
 			}
 			try {
 				java.sql.PreparedStatement addRecord = c.prepareStatement("INSERT INTO `repo`.`daily_historical`" +
-						"(`date`,`open`,`high`,`low`,`close`,`volume`,`adjusted_close`,`ticker_id`) " +
+						"(`date`,`open`,`high`,`low`,`close`,`volume`,`adjusted_close`,`ticker_id`, `date_ts`) " +
 						"VALUES"
 						+ "( ? ," //date - 1
 						+ " ? ," //open - 2
@@ -40,7 +42,8 @@ public class LoadAllDB {
 						+ " ?  ," //close - 5
 						+ " ?  ," //volume - 6
 						+ " ?  ," //adj close - 7
-						 //ticker - 8
+						+ " ?  ," //ticker - 8
+						 //date_ts - 9
 						+ " ? )");
 				c.createStatement().execute("TRUNCATE `repo`.`daily_historical`");
 				ticks.parallelStream().forEach((s)->{
@@ -68,6 +71,7 @@ public class LoadAllDB {
 									addRecord.setInt(6, rec.getVolume());
 									addRecord.setDouble(7, rec.getAdjClose());
 									addRecord.setString(8, rec.getTicker());
+									addRecord.setLong(9, rec.getDateTs());
 									} catch (SQLException e){
 										e.printStackTrace();
 										return;

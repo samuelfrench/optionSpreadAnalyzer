@@ -1,5 +1,7 @@
 package domain;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class HistoricalDataRecord {
@@ -13,6 +15,7 @@ public class HistoricalDataRecord {
     private Integer volume;
     private Double adjClose;
     private String ticker;
+    private Long dateTs;
 
     public HistoricalDataRecord(){
 	
@@ -149,7 +152,7 @@ public class HistoricalDataRecord {
 	public void setTicker(String ticker) {
 		this.ticker = ticker;
 	}
-
+/*
 	public String toSQL(){
     	return "INSERT INTO `repo`.`daily_historical` (`date`, `open`, `high`, `low`, `close`, `volume`, `adjusted_volume`, `ticker_id`) "
     			+ "VALUES "
@@ -161,5 +164,22 @@ public class HistoricalDataRecord {
     			+ this.getVolume() + ", "
     			+ this.getAdjClose() + ", "
     			+ "'" + this.getTicker() + "')";
-    }
+    } */
+
+	public Long getDateTs() {
+		if(this.dateTs==null){
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			try {
+				this.dateTs = sdf.parse(this.getDate()).toInstant().getEpochSecond();
+			} catch (ParseException e) {
+				this.dateTs = (long) 0;
+				e.printStackTrace();
+			}
+		}
+		return dateTs;
+	}
+
+	public void setDateTs(Long dateTs) {
+		this.dateTs = dateTs;
+	}
 }
