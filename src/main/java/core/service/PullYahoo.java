@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import core.csv.task.NasdaqTickerReader;
 import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class PullYahoo {
@@ -14,6 +15,7 @@ public class PullYahoo {
 	public final static String[] tickers = {"INTC","AMD","AMZN", "ARMH"};
 	public static void main(String[] args) {
 		//List<String> ticks = getNasdaqTickers();
+		@SuppressWarnings("unchecked")
 		List<String> ticks = Arrays.asList(tickers);
 		ticks.parallelStream().forEach((t) -> {
 			YahooQuery.getHistoricalStockData(t,"2005","2015",false);
@@ -23,6 +25,7 @@ public class PullYahoo {
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	public static List<String> getAbbrTickers(){
 		return Arrays.asList(tickers);
 	}
@@ -46,5 +49,14 @@ public class PullYahoo {
 		}
 		return ticks;
 	}
+	
+	public static void getAndWriteDailyCsv(boolean timeStamp) {
+		List<String> ticks = NasdaqTickerReader.readFromFile();
+		//YahooQuery query = new YahooQuery();
+		ticks.parallelStream().forEach((t)->{
+			YahooQuery.getDailyStockCSV(t,t, timeStamp);
+			System.out.println(" " + t);
 
+		});
+	}
 }

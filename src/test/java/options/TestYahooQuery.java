@@ -1,14 +1,11 @@
 package options;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 
+import core.csv.task.NasdaqTickerReader;
+import core.service.PullYahoo;
 import core.service.YahooQuery;
 
 public class TestYahooQuery {
@@ -17,20 +14,7 @@ public class TestYahooQuery {
 	//final static String[] tickers = {"AAPL", "INTC", "AMD", "AMZN", "NVDA","ORCL", "EBAY","FB","SAP", "TWTR", "YHOO", "MSFT", "GOOGL"};
 	@Test
 	public final void testYahooQuery() {
-		List<String> ticks = new ArrayList<>();
-		try {
-			BufferedReader br = new BufferedReader( new FileReader("nasdaqlisted.txt"));
-			while(br.ready()){
-				ticks.add(br.readLine().split("\\|")[0]);
-			}
-			br.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		List<String> ticks = readTicksFromFile();
 		//YahooQuery query = new YahooQuery();
 		for(int x = 0; x < ticks.size(); x++){
 			YahooQuery.getHistoricalStockData(ticks.get(x),"1994","2015", false);
@@ -40,7 +24,14 @@ public class TestYahooQuery {
 	
 	@Test
 	public final void testGetDailyStockCSV() {
-		List<String> ticks = new ArrayList<>();
+		PullYahoo.getAndWriteDailyCsv(true);
+	}
+
+	
+
+	public List<String> readTicksFromFile() {
+		return NasdaqTickerReader.readFromFile();
+		/*List<String> ticks = new ArrayList<>();
 		try {
 			BufferedReader br = new BufferedReader( new FileReader("nasdaqlisted.txt"));
 			while(br.ready()){
@@ -54,11 +45,7 @@ public class TestYahooQuery {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//YahooQuery query = new YahooQuery();
-		for(int x = 0; x < ticks.size(); x++){
-			YahooQuery.getDailyStockCSV(ticks.get(x),ticks.get(x), true);
-			System.out.println(x + " " + ticks.get(x));
-		}
+		return ticks; */
 	}
 
 }
