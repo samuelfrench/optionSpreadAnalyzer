@@ -2,14 +2,20 @@ package core.csv.task;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import com.mysql.jdbc.Statement;
 
 import core.csv.CSVReader;
 import core.service.PersistServ;
@@ -22,10 +28,12 @@ public class LoadAllDB {
 		//loadHistoricalDB();
 		//ConcurrentHashMap<String,Integer> map = getTickers();
 		//map.values().forEach((c)->System.out.println(c.toString()));
-		ConcurrentHashMap<String,List<MktDataRow>> map = new ConcurrentHashMap<>();
-		ConcurrentMap<String,Integer> workItems = getTickers();
-		workItems.keySet().parallelStream().forEach((k)-> {try{map.put(k, new CSVReader("csv/daily/" + k+".CSV").read());} catch (IOException e){e.printStackTrace();} /*System.out.println(k);*/});
-		map.keySet().parallelStream().forEach((k)->{loadRecords(map.get(k),k); System.out.println(k);});
+		
+		//ConcurrentHashMap<String,List<MktDataRow>> map = new ConcurrentHashMap<>();
+		//ConcurrentMap<String,Integer> workItems = getTickers();
+		//workItems.keySet().parallelStream().forEach((k)-> {try{map.put(k, new CSVReader("csv/daily/" + k+".CSV").read());} catch (IOException e){e.printStackTrace();} /*System.out.println(k);*/});
+		//map.keySet().parallelStream().forEach((k)->{loadRecords(map.get(k),k); System.out.println(k);});
+		addDateText();
 	}
 	
 	public static void loadHistoricalDB(){
@@ -203,6 +211,91 @@ public class LoadAllDB {
 			}
 		
 		return false;
+	}
+	
+	public static boolean addDateText(){
+		Connection c;
+		try {
+			c = PersistServ.initConn();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return true;
+		}
+		java.sql.Statement s, s2;
+		try {
+			s = c.createStatement();
+			s2 = c.createStatement();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return true;
+		}
+		ResultSet rs;
+		try {
+			rs = s.executeQuery("SELECT daily_inter_id, timestamp FROM `repo`.`daily_inter`");
+			s2.execute("TRUNCATE `repo`.`daily_inter_date`");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return true;
+		}
+		ConcurrentMap<Long, String> insertMap = new ConcurrentHashMap<>();
+		try {
+			while(rs.next()){
+				try {
+					
+					Date d = new Date(((rs.getLong(1))*60000)+7200000);
+					DateFormat df = DateFormat.getTimeInstance();
+					insertMap.put(rs.getLong(1), df.format(d));
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		PreparedStatement ps;
+		try {
+			ps = c.prepareStatement("INSERT INTO `repo`.`daily_inter_date` (`daily_inter_id`, `date_text`) VALUES"
+					+ " (?,?)");
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+			try {
+				c.close();
+			} catch (SQLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			return true;
+		}
+		insertMap.keySet().stream().sequential().forEach((k)->{
+			
+			try{
+			ps.setLong(1, k);
+			ps.setString(2, insertMap.get(k));
+			ps.addBatch();
+			} catch (Exception e){
+				e.printStackTrace();
+			}
+		});
+		try {
+			ps.executeBatch();
+		} catch (SQLException e) {
+			try {
+				c.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			return true;
+		}
+		return false;
+
+		
+		
 	}
 
 }
