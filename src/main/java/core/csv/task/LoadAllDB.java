@@ -186,13 +186,22 @@ public class LoadAllDB {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
 			try {
 				addRecord.executeBatch();
 			} catch (SQLException e) {
 				e.printStackTrace();
 				return true;
+			} finally{
+				
+				try {
+					addRecord.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-		}
+		
 		return false;
 	}
 
