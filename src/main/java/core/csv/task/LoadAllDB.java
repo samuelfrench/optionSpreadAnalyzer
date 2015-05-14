@@ -1,5 +1,6 @@
 package core.csv.task;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,17 +9,23 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import core.csv.CSVReader;
 import core.service.PersistServ;
 import core.service.YahooQuery;
 import domain.HistoricalDataRecord;
+import domain.MktDataRow;
 
 public class LoadAllDB {
 	public static void main(String[] args) {
 		//loadHistoricalDB();
 		//ConcurrentHashMap<String,Integer> map = getTickers();
 		//map.values().forEach((c)->System.out.println(c.toString()));
+		ConcurrentHashMap<String,List<MktDataRow>> map = new ConcurrentHashMap<>();
+		ConcurrentMap<String,Integer> workItems = getTickers();
+		workItems.keySet().parallelStream().forEach((k)-> {try{map.put(k, new CSVReader("csv/daily/" + k+".CSV").read());} catch (IOException e){e.printStackTrace();} /*System.out.println(k);*/});
+		map.keySet().parallelStream().forEach((k)->{loadRecords(map.get(k),k); System.out.println(k);});
 	}
 	
 	public static void loadHistoricalDB(){
@@ -133,6 +140,60 @@ public class LoadAllDB {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public static boolean loadRecords(List<MktDataRow> rows, String ticker){
+		Connection c;
+		try {
+			c = PersistServ.initConn();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return true;
+		}
+		
+		Integer tickerId = getTickers().getOrDefault(ticker, -1);
+		if(tickerId.equals(-1)){
+			return true;
+		}
+		java.sql.PreparedStatement addRecord;
+		try {
+			addRecord = c.prepareStatement("INSERT INTO `repo`.`daily_inter`(`timestamp`,`close`,`high`,`low`,`open`,`volume`,`ticker_id`)"
+					+ "VALUES"
+					+ "(?,"
+					+ "?,"
+					+ "?,"
+					+ "?,"
+					+ "?,"
+					+ "?,"
+					+ "?)");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return true;
+		}
+		for(MktDataRow r : rows){
+			try {
+				addRecord.setLong(1, r.getTimestamp());
+				addRecord.setDouble(2, r.getClose());
+				addRecord.setDouble(3, r.getHigh());
+				addRecord.setDouble(4, r.getLow());
+				addRecord.setDouble(5, r.getOpen());
+				addRecord.setLong(6, r.getVolume());
+				addRecord.setInt(7, tickerId);
+				addRecord.addBatch();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				addRecord.executeBatch();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
