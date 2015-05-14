@@ -1,10 +1,13 @@
 package core.csv.task;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import core.csv.CSVReader;
 import core.service.PersistServ;
@@ -13,7 +16,9 @@ import domain.HistoricalDataRecord;
 
 public class LoadAllDB {
 	public static void main(String[] args) {
-		loadHistoricalDB();
+		//loadHistoricalDB();
+		//ConcurrentHashMap<String,Integer> map = getTickers();
+		//map.values().forEach((c)->System.out.println(c.toString()));
 	}
 	
 	public static void loadHistoricalDB(){
@@ -98,6 +103,36 @@ public class LoadAllDB {
 			}
 			
 		
+	}
+	
+	public static ConcurrentHashMap<String,Integer> getTickers(){
+		ConcurrentHashMap<String,Integer> map = new ConcurrentHashMap<>();
+		Connection c;
+		try {
+			c = PersistServ.initConn();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		try {
+			ResultSet resultSet = c.createStatement().executeQuery("SELECT * FROM `repo`.`nasdaq_ticker`");
+			while(resultSet.next()){
+				map.put(resultSet.getString(2).trim().toLowerCase(), resultSet.getInt(1));
+			}
+			return map;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				c.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
