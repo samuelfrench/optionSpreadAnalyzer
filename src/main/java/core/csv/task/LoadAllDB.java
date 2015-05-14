@@ -8,7 +8,7 @@ import java.util.List;
 
 import core.csv.CSVReader;
 import core.service.PersistServ;
-import core.service.PullYahoo;
+import core.service.YahooQuery;
 import domain.HistoricalDataRecord;
 
 public class LoadAllDB {
@@ -18,7 +18,7 @@ public class LoadAllDB {
 	
 	public static void loadDB(){
 		//List<String> ticks = PullYahoo.getAbbrTickers();
-		List<String> ticks = PullYahoo.getNasdaqTickers();
+		List<String> ticks = YahooQuery.getNasdaqTickers();
 		//ticks.parallelStream().forEach((t) -> {
 		//	YahooQuery.getStockData(t,"1994","2015", false);
 		//	System.out.println("Downloading: " + t);

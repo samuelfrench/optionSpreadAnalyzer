@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import org.junit.Test;
 
 import core.csv.task.NasdaqTickerReader;
-import core.service.PullYahoo;
 import core.service.YahooQuery;
 
 public class TestYahooQuery {
@@ -25,7 +24,7 @@ public class TestYahooQuery {
 	
 	@Test
 	public final void testGetDailyStockCSV() {
-		PullYahoo.getAndWriteDailyCsv(false);
+		YahooQuery.getAndWriteDailyCsv(false);
 	}
 
 	

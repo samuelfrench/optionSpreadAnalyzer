@@ -1,8 +1,13 @@
 package core.service;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -10,6 +15,10 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+
+import core.csv.misc.PullYahoo;
+import core.csv.task.NasdaqTickerReader;
+import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class YahooQuery {
 	
@@ -142,5 +151,46 @@ public class YahooQuery {
 		sb.append(ticker);
 		sb.append(dailyQuery[1]);
 		return sb.toString();
+	}
+
+	public final static String[] tickers = {"INTC","AMD","AMZN", "ARMH"};
+	/**
+	 * @return
+	 */
+	public static List<String> getNasdaqTickers() {
+		List<String> ticks = new ArrayList<>();
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("nasdaqlisted.txt"));
+			while(br.ready()){
+				ticks.add(br.readLine().split("\\|")[0]);
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ticks.remove("Symbol");
+		return ticks;
+	}
+
+	/**
+	 * @todo need to find a better name for this - not daily - not sure what a proper name would be
+	 * @param timeStamp - append timestamp to file
+	 */
+	public static void getAndWriteDailyCsv(boolean timeStamp) {
+		List<String> ticks = NasdaqTickerReader.readFromFile();
+		//YahooQuery query = new YahooQuery();
+		ticks.parallelStream().forEach((t)->{
+			getDailyStockCSV(t,t, timeStamp);
+			//System.out.println(" " + t);
+		});
+	}
+
+	@SuppressWarnings("unchecked")
+	public static List<String> getAbbrTickers(){
+		return Arrays.asList(PullYahoo.tickers);
 	}
 }
