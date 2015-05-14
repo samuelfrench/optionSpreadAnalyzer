@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -245,9 +246,11 @@ public class LoadAllDB {
 			while(rs.next()){
 				try {
 					
-					Date d = new Date(((rs.getLong(1))*60000)+7200000);
+					Date d = new Date(((rs.getLong(2)*1000)+(3600000)));
+					
 					DateFormat df = DateFormat.getTimeInstance();
-					insertMap.put(rs.getLong(1), df.format(d));
+					DateFormat df2 = DateFormat.getDateInstance();
+					insertMap.put(rs.getLong(1),  df.format(d));
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
