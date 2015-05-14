@@ -54,7 +54,7 @@ public class LoadAllDB {
 					CSVReader rd = new CSVReader("csv/" + s + ".csv");
 							List<HistoricalDataRecord> list;
 							try {
-								list = rd.readFile();
+								list = rd.readHistoricalFile();
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();

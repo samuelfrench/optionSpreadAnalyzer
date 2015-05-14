@@ -13,7 +13,7 @@ public class TestYahooQuery {
 
 	
 	//final static String[] tickers = {"AAPL", "INTC", "AMD", "AMZN", "NVDA","ORCL", "EBAY","FB","SAP", "TWTR", "YHOO", "MSFT", "GOOGL"};
-	@Test
+	//@Test
 	public final void testYahooQuery() {
 		List<String> ticks = readTicksFromFile();
 		//YahooQuery query = new YahooQuery();
@@ -25,7 +25,7 @@ public class TestYahooQuery {
 	
 	@Test
 	public final void testGetDailyStockCSV() {
-		PullYahoo.getAndWriteDailyCsv(true);
+		PullYahoo.getAndWriteDailyCsv(false);
 	}
 
 	
