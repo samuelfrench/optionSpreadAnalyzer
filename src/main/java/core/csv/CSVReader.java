@@ -1,5 +1,6 @@
 package core.csv;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,10 +66,16 @@ public class CSVReader {
 	
 	public boolean openFile(String fileName){
 		try {
-			this.fileReader = new FileReader(fileName);
+			try{
+				this.fileReader = new FileReader(fileName);
+			} catch (FileNotFoundException e){
+				//
+				return true;
+			}
+			
 			this.csvReader = new CSVParser(fileReader,
 					CSVFormat.EXCEL.withDelimiter(','));
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return true;
 		}
@@ -76,6 +83,7 @@ public class CSVReader {
 	}
 	
 	public List<MktDataRow> read() throws IOException {
+		try{
 		List<CSVRecord> rawRecords = this.csvReader.getRecords();
 		rawRecords.removeIf((p) -> p == null || p.size()< 4 || !StringUtils.isNumeric(p.get(0)));
 		//List<CSVRecord> filteredRecords = rawRecords.stream().filter((r)-> StringUtils.isNumeric(r.get('0').substring(0, 2))).collect(Collectors.toList());
@@ -92,5 +100,8 @@ public class CSVReader {
 		}
 		
 		return resultSet;
+	} catch (Exception e){
+		return new ArrayList<MktDataRow>();
+	}
 	}
 }

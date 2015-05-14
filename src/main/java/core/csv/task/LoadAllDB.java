@@ -29,14 +29,57 @@ public class LoadAllDB {
 		//loadHistoricalDB();
 		//ConcurrentHashMap<String,Integer> map = getTickers();
 		//map.values().forEach((c)->System.out.println(c.toString()));
-		
-		//ConcurrentHashMap<String,List<MktDataRow>> map = new ConcurrentHashMap<>();
-		//ConcurrentMap<String,Integer> workItems = getTickers();
-		//workItems.keySet().parallelStream().forEach((k)-> {try{map.put(k, new CSVReader("csv/daily/" + k+".CSV").read());} catch (IOException e){e.printStackTrace();} /*System.out.println(k);*/});
-		//map.keySet().parallelStream().forEach((k)->{loadRecords(map.get(k),k); System.out.println(k);});
+
+		runDailyUpdate();
 		addDateText();
+		loadHistoricalDB();
 	}
-	
+
+	private static void runDailyUpdate() {
+
+
+		ConcurrentHashMap<String,List<MktDataRow>> map = new ConcurrentHashMap<>();
+		ConcurrentMap<String,Integer> workItems = getTickers();
+		workItems.keySet().parallelStream().forEach((k)-> {try{map.put(k, new CSVReader("csv/daily/" + k+".csv").read());} catch (IOException e){e.printStackTrace();} /*System.out.println(k);*/});
+		map.keySet().parallelStream().forEach((k)->{
+			Connection c  =null;
+			try{
+
+				c = PersistServ.initConn();
+
+				loadRecords(map.get(k),k, c); 
+			} catch (Exception e) {
+				e.printStackTrace();
+				try {
+					if(c!=null){
+
+						if(!c.isClosed()){
+
+							c.close();
+
+						}
+					}
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+				System.out.println(k);
+			} finally {
+				try {
+					//c.commit();
+					c.close();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+
+
+	}
+
+
 	public static void loadHistoricalDB(){
 		//List<String> ticks = PullYahoo.getAbbrTickers();
 		List<String> ticks = YahooQuery.getNasdaqTickers();
@@ -44,83 +87,83 @@ public class LoadAllDB {
 		//	YahooQuery.getStockData(t,"1994","2015", false);
 		//	System.out.println("Downloading: " + t);
 		//});
-			Connection c;
-			try {
-				c = PersistServ.initConn();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return;
-			}
-			try {
-				java.sql.PreparedStatement addRecord = c.prepareStatement("INSERT INTO `repo`.`daily_historical`" +
-						"(`date`,`open`,`high`,`low`,`close`,`volume`,`adjusted_close`,`ticker_id`, `date_ts`) " +
-						"VALUES"
-						+ "( ? ," //date - 1
-						+ " ? ," //open - 2
-						+ " ?  ," //high - 3
-						+ " ?  ," //low - 4
-						+ " ?  ," //close - 5
-						+ " ?  ," //volume - 6
-						+ " ?  ," //adj close - 7
-						+ " ?  ," //ticker - 8
-						 //date_ts - 9
-						+ " ? )");
-				c.createStatement().execute("TRUNCATE `repo`.`daily_historical`");
-				ticks.parallelStream().forEach((s)->{
-					//System.out.println(s);
-					if(s.startsWith("File Creation Time")){
+		Connection c;
+		try {
+			c = PersistServ.initConn();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
+		try {
+			java.sql.PreparedStatement addRecord = c.prepareStatement("INSERT INTO `repo`.`daily_historical`" +
+					"(`date`,`open`,`high`,`low`,`close`,`volume`,`adjusted_close`,`ticker_id`, `date_ts`) " +
+					"VALUES"
+					+ "( ? ," //date - 1
+					+ " ? ," //open - 2
+					+ " ?  ," //high - 3
+					+ " ?  ," //low - 4
+					+ " ?  ," //close - 5
+					+ " ?  ," //volume - 6
+					+ " ?  ," //adj close - 7
+					+ " ?  ," //ticker - 8
+					//date_ts - 9
+					+ " ? )");
+			c.createStatement().execute("TRUNCATE `repo`.`daily_historical`");
+			ticks.parallelStream().forEach((s)->{
+				//System.out.println(s);
+				if(s.startsWith("File Creation Time")){
+					return;
+				}
+				CSVReader rd = new CSVReader("csv/" + s + ".csv");
+				List<HistoricalDataRecord> list;
+				try {
+					list = rd.readHistoricalFile();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					return;
+				}
+				list.parallelStream().forEach((p) -> p.setTicker(s));
+				list.parallelStream().forEach((rec) -> {
+					try{
+						addRecord.setString(1, rec.getDate());
+						addRecord.setDouble(2, rec.getOpen());
+						addRecord.setDouble(3, rec.getHigh());
+						addRecord.setDouble(4, rec.getLow());
+						addRecord.setDouble(5, rec.getClose());
+						addRecord.setInt(6, rec.getVolume());
+						addRecord.setDouble(7, rec.getAdjClose());
+						addRecord.setString(8, rec.getTicker());
+						addRecord.setLong(9, rec.getDateTs());
+					} catch (SQLException e){
+						e.printStackTrace();
 						return;
 					}
-					CSVReader rd = new CSVReader("csv/" + s + ".csv");
-							List<HistoricalDataRecord> list;
-							try {
-								list = rd.readHistoricalFile();
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-								return;
-							}
-							list.parallelStream().forEach((p) -> p.setTicker(s));
-								list.parallelStream().forEach((rec) -> {
-									try{
-									addRecord.setString(1, rec.getDate());
-									addRecord.setDouble(2, rec.getOpen());
-									addRecord.setDouble(3, rec.getHigh());
-									addRecord.setDouble(4, rec.getLow());
-									addRecord.setDouble(5, rec.getClose());
-									addRecord.setInt(6, rec.getVolume());
-									addRecord.setDouble(7, rec.getAdjClose());
-									addRecord.setString(8, rec.getTicker());
-									addRecord.setLong(9, rec.getDateTs());
-									} catch (SQLException e){
-										e.printStackTrace();
-										return;
-									}
-									try{
-										addRecord.addBatch();
-										
-									} catch (SQLException e4){
-										e4.printStackTrace();
-									}
-								});
-								System.out.println(s);
-								try {
-									addRecord.executeBatch();
-								} catch (Exception e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
+					try{
+						addRecord.addBatch();
+
+					} catch (SQLException e4){
+						e4.printStackTrace();
+					}
 				});
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-				return;
-			}
-			
-		
+				System.out.println(s);
+				try {
+					addRecord.executeBatch();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return;
+		}
+
+
 	}
-	
+
 	public static ConcurrentHashMap<String,Integer> getTickers(){
 		ConcurrentHashMap<String,Integer> map = new ConcurrentHashMap<>();
 		Connection c;
@@ -134,7 +177,7 @@ public class LoadAllDB {
 		try {
 			ResultSet resultSet = c.createStatement().executeQuery("SELECT * FROM `repo`.`nasdaq_ticker`");
 			while(resultSet.next()){
-				map.put(resultSet.getString(2).trim().toLowerCase(), resultSet.getInt(1));
+				map.put(resultSet.getString(2).trim().toUpperCase(), resultSet.getInt(1));
 			}
 			return map;
 		} catch (SQLException e) {
@@ -150,24 +193,17 @@ public class LoadAllDB {
 			}
 		}
 	}
-	
-	public static boolean loadRecords(List<MktDataRow> rows, String ticker){
-		Connection c;
-		try {
-			c = PersistServ.initConn();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return true;
-		}
-		
+
+	public static boolean loadRecords(List<MktDataRow> rows, String ticker, Connection c){
+
+
 		Integer tickerId = getTickers().getOrDefault(ticker, -1);
 		if(tickerId.equals(-1)){
 			return true;
 		}
 		java.sql.PreparedStatement addRecord;
 		try {
-			addRecord = c.prepareStatement("INSERT INTO `repo`.`daily_inter`(`timestamp`,`close`,`high`,`low`,`open`,`volume`,`ticker_id`)"
+			addRecord = c.prepareStatement("INSERT IGNORE INTO `repo`.`daily_inter`(`timestamp`,`close`,`high`,`low`,`open`,`volume`,`ticker_id`)"
 					+ "VALUES"
 					+ "(?,"
 					+ "?,"
@@ -196,24 +232,24 @@ public class LoadAllDB {
 				e.printStackTrace();
 			}
 		}
+		try {
+			addRecord.executeBatch();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return true;
+		} finally{
+
 			try {
-				addRecord.executeBatch();
+				addRecord.close();
 			} catch (SQLException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
-				return true;
-			} finally{
-				
-				try {
-					addRecord.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
-		
+		}
+
 		return false;
 	}
-	
+
 	public static boolean addDateText(){
 		Connection c;
 		try {
@@ -245,9 +281,9 @@ public class LoadAllDB {
 		try {
 			while(rs.next()){
 				try {
-					
+
 					Date d = new Date(((rs.getLong(2)*1000)+(3600000)));
-					
+
 					DateFormat df = DateFormat.getTimeInstance();
 					DateFormat df2 = DateFormat.getDateInstance();
 					insertMap.put(rs.getLong(1),  df.format(d));
@@ -274,11 +310,11 @@ public class LoadAllDB {
 			return true;
 		}
 		insertMap.keySet().stream().sequential().forEach((k)->{
-			
+
 			try{
-			ps.setLong(1, k);
-			ps.setString(2, insertMap.get(k));
-			ps.addBatch();
+				ps.setLong(1, k);
+				ps.setString(2, insertMap.get(k));
+				ps.addBatch();
 			} catch (Exception e){
 				e.printStackTrace();
 			}
@@ -297,8 +333,8 @@ public class LoadAllDB {
 		}
 		return false;
 
-		
-		
+
+
 	}
 
 }

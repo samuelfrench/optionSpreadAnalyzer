@@ -22,7 +22,7 @@ import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class YahooQuery {
 	
-	public static final String[] dailyQuery = {"http://chartapi.finance.yahoo.com/instrument/1.0/","/chartdata;type=quote;range=1d/csv"};
+	public static final String[] dailyQuery = {"http://chartapi.finance.yahoo.com/instrument/1.0/","/chartdata;type=quote;range=","d/csv"};
 	public static void getHistoricalStockData(String ticker, String startYear, String endYear, boolean timeStamp){
 	  CloseableHttpClient httpclient = HttpClients.createDefault();
 	  if(ticker.length()>10){
@@ -89,12 +89,15 @@ public class YahooQuery {
 	//return null;
 	}
 	
-	public static void getDailyStockCSV(String ticker, String fileName, boolean timeStamp) {
+	public static void getDailyStockCSV(String ticker, String fileName, boolean timeStamp, int days, final String append) {
+		if(append!=null&&append.length()>0){
+			fileName = fileName.concat(append);
+		}
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		if (ticker.length() > 10) {
 			return;
 		}
-		String query = getDailyURI(ticker);
+		String query = getDailyURI(ticker,days);
 	    	  HttpGet httpget = new HttpGet(query);
 
 
@@ -146,10 +149,12 @@ public class YahooQuery {
 
 	}
 	
-	private static String getDailyURI(String ticker){
+	private static String getDailyURI(String ticker, int days){
 		StringBuilder sb = new StringBuilder(dailyQuery[0]);
 		sb.append(ticker);
 		sb.append(dailyQuery[1]);
+		sb.append(days);
+		sb.append(dailyQuery[2]);
 		return sb.toString();
 	}
 
@@ -180,11 +185,11 @@ public class YahooQuery {
 	 * @todo need to find a better name for this - not daily - not sure what a proper name would be
 	 * @param timeStamp - append timestamp to file
 	 */
-	public static void getAndWriteDailyCsv(boolean timeStamp) {
+	public static void getAndWriteDailyCsv(boolean timeStamp, final int days, final String append) {
 		List<String> ticks = NasdaqTickerReader.readFromFile();
 		//YahooQuery query = new YahooQuery();
 		ticks.parallelStream().forEach((t)->{
-			getDailyStockCSV(t,t, timeStamp);
+			getDailyStockCSV(t,t, timeStamp, days, append);
 			//System.out.println(" " + t);
 		});
 	}

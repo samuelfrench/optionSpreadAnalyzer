@@ -17,14 +17,16 @@ public class TestYahooQuery {
 		List<String> ticks = readTicksFromFile();
 		//YahooQuery query = new YahooQuery();
 		ticks.parallelStream().forEach((t)->{
-			YahooQuery.getHistoricalStockData(t,"1994","2015", false);
+			YahooQuery.getHistoricalStockData(t,"2000","2015", false);
 			System.out.println(t);
 		});
 	}
 	
 	@Test
 	public final void testGetDailyStockCSV() {
-		YahooQuery.getAndWriteDailyCsv(false);
+		//YahooQuery.getAndWriteDailyCsv(false,1,"test");
+		YahooQuery.getAndWriteDailyCsv(false,500,"500");
+		//YahooQuery.getAndWriteDailyCsv(true,1);
 	}
 
 	
