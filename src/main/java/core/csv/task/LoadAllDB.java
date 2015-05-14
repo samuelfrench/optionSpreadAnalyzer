@@ -13,10 +13,10 @@ import domain.HistoricalDataRecord;
 
 public class LoadAllDB {
 	public static void main(String[] args) {
-		loadDB();
+		loadHistoricalDB();
 	}
 	
-	public static void loadDB(){
+	public static void loadHistoricalDB(){
 		//List<String> ticks = PullYahoo.getAbbrTickers();
 		List<String> ticks = YahooQuery.getNasdaqTickers();
 		//ticks.parallelStream().forEach((t) -> {
