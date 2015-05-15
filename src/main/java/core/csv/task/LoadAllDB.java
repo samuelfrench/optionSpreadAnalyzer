@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +20,10 @@ import java.util.concurrent.ConcurrentMap;
 import com.mysql.jdbc.Statement;
 
 import core.csv.CSVReader;
+import core.service.ConnectionPool;
 import core.service.PersistServ;
 import core.service.YahooQuery;
+import domain.CustomTS;
 import domain.HistoricalDataRecord;
 import domain.MktDataRow;
 
@@ -29,10 +32,10 @@ public class LoadAllDB {
 		//loadHistoricalDB();
 		//ConcurrentHashMap<String,Integer> map = getTickers();
 		//map.values().forEach((c)->System.out.println(c.toString()));
-
-		runDailyUpdate();
-		addDateText();
-		loadHistoricalDB();
+		//setupTimestamp();
+		//runDailyUpdate();
+		//addDateText();
+		//loadHistoricalDB();
 	}
 
 	private static void runDailyUpdate() {
@@ -40,7 +43,7 @@ public class LoadAllDB {
 
 		ConcurrentHashMap<String,List<MktDataRow>> map = new ConcurrentHashMap<>();
 		ConcurrentMap<String,Integer> workItems = getTickers();
-		workItems.keySet().parallelStream().forEach((k)-> {try{map.put(k, new CSVReader("csv/daily/" + k+".csv").read());} catch (IOException e){e.printStackTrace();} /*System.out.println(k);*/});
+		workItems.keySet().parallelStream().forEach((k)-> {try{map.put(k, new CSVReader("csv/daily/" + k+"500.csv").read());} catch (IOException e){e.printStackTrace();} /*System.out.println(k);*/});
 		map.keySet().parallelStream().forEach((k)->{
 			Connection c  =null;
 			try{
@@ -250,6 +253,13 @@ public class LoadAllDB {
 		return false;
 	}
 
+	public static CustomTS getTimestamp(Long ts){
+		
+			return  new CustomTS((ts%60),(ts/60)%60, (ts/3600)%24,((ts/3600)/24)%365);
+		
+			
+		
+	}
 	public static boolean addDateText(){
 		Connection c;
 		try {
